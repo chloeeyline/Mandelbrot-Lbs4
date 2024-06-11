@@ -20,10 +20,7 @@ public class MandelbrotApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        MandelbrotModel model = new MandelbrotModel();
-        MandelbrotView view = new MandelbrotView(model, WIDTH, HEIGHT);
         MenuBarView MenuView = new MenuBarView();
-        new MandelbrotController(model, view);
         DisplayModel model = new DisplayModel();
         DisplayView view = new DisplayView(model, WIDTH, HEIGHT);
         new DisplayController(model, view);
