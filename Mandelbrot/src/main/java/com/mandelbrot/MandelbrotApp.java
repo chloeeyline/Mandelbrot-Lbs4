@@ -1,5 +1,8 @@
 package com.mandelbrot;
 
+import com.mandelbrot.display.DisplayController;
+import com.mandelbrot.display.DisplayModel;
+import com.mandelbrot.display.DisplayView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -15,9 +18,9 @@ public class MandelbrotApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        MandelbrotModel model = new MandelbrotModel();
-        MandelbrotView view = new MandelbrotView(model, WIDTH, HEIGHT);
-        new MandelbrotController(model, view);
+        DisplayModel model = new DisplayModel();
+        DisplayView view = new DisplayView(model, WIDTH, HEIGHT);
+        new DisplayController(model, view);
 
         Pane root = new Pane();
         root.getChildren().add(view.getCanvas());
@@ -26,6 +29,6 @@ public class MandelbrotApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        view.drawMandelbrotSet(200, 0, 0);
+        view.drawMandelbrotSet();
     }
 }
