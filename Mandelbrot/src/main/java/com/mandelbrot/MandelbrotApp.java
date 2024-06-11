@@ -1,9 +1,10 @@
 package com.mandelbrot;
 
+import MenuBarPackage.MenuBarView;
 import javafx.application.Application;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 
 public class MandelbrotApp extends Application {
     private static final int WIDTH = 800;
@@ -17,14 +18,16 @@ public class MandelbrotApp extends Application {
     public void start(Stage primaryStage) {
         MandelbrotModel model = new MandelbrotModel();
         MandelbrotView view = new MandelbrotView(model, WIDTH, HEIGHT);
+        MenuBarView MenuView = new MenuBarView();
         new MandelbrotController(model, view);
 
-        Pane root = new Pane();
-        root.getChildren().add(view.getCanvas());
+        VBox root = new VBox();
+        root.getChildren().addAll(MenuView.createMenuBar(), view.getCanvas());
         Scene scene = new Scene(root);
         primaryStage.setTitle("Mandelbrot Set");
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.sizeToScene();
 
         view.drawMandelbrotSet(200, 0, 0);
     }

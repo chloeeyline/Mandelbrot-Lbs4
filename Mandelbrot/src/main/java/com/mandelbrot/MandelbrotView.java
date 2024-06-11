@@ -1,5 +1,6 @@
 package com.mandelbrot;
 
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
@@ -40,4 +41,6 @@ public class MandelbrotView {
             canvas.getGraphicsContext2D().drawImage(image, 0, 0);
         });
     }
+
+
 }
