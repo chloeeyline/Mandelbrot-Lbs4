@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="MainStart" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="com.mandelbrot.MandelbrotApp" />
+    <option name="MAIN_CLASS_NAME" value="com.mandelbrot.StartupApplication" />
     <module name="Mandelbrot" />
     <method v="2">
       <option name="Make" enabled="true" />
