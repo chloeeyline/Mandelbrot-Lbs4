@@ -26,15 +26,17 @@ public class DisplayView {
     private double startX, startY;
     private int mouseAction;
 
+
+
     private static final int MOUSE_ACTION_DRAG = 1;
     private static final int MOUSE_ACTION_ZOOM_IN = 2;
     private static final int MOUSE_ACTION_ZOOM_OUT = 3;
     private int defaultMouseAction = MOUSE_ACTION_DRAG;
 
-    public DisplayView(DisplayModel model, int width, int height) {
+    public DisplayView(DisplayModel model) {
         this.model = model;
-        this.canvas = new Canvas(width, height);
-        this.image = new WritableImage(width, height);
+        this.canvas = new Canvas(800, 800);
+        this.image = new WritableImage(800, 800);
         this.pane = new Pane();
         pane.getChildren().add(canvas);
         canvas.setOnMousePressed(new MouseHandler());
