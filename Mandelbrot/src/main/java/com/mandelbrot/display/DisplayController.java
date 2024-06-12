@@ -35,4 +35,41 @@ public class DisplayController {
         double newYMax = _model.getYMin() + ((rect.getY() + rect.getHeight()) / _model.getImageHeight()) * (_model.getYMax() - _model.getYMin());
         _model.setLimits(newXMin, newXMax, newYMin, newYMax);
     }
+
+    public void doZoomOutFromRect(Rectangle rect) {
+        double rectX = rect.getX();
+        double rectY = rect.getY();
+        double rectW = rect.getWidth();
+        double rectH = rect.getHeight();
+        double imageWidth = _model.getImageWidth();
+        double imageHeight = _model.getImageHeight();
+
+        double newPixelWidth = (_model.getXMax() - _model.getXMin()) / rectW;
+        double newPixelHeight = (_model.getYMax() - _model.getYMin()) / rectH;
+
+        double newXMin = _model.getXMin() - newPixelWidth * rectX;
+        double newYMax = _model.getYMax() + newPixelHeight * rectY;
+        double newWidth = newPixelWidth * imageWidth;
+        double newHeight = newPixelHeight * imageHeight;
+        double newXMax = newXMin + newWidth;
+        double newYMin = newYMax - newHeight;
+
+        _model.setLimits(newXMin, newXMax, newYMin, newYMax);
+    }
+
+    public void doDrag(double startX, double startY, double endX, double endY) {
+        double xShift = endX - startX;
+        double yShift = endY - startY;
+
+        double xRange = _model.getXMax() - _model.getXMin();
+        double yRange = _model.getYMax() - _model.getYMin();
+
+        double newXMin = _model.getXMin() - (xShift / _model.getImageWidth()) * xRange;
+        double newXMax = _model.getXMax() - (xShift / _model.getImageWidth()) * xRange;
+        double newYMin = _model.getYMin() - (yShift / _model.getImageHeight()) * yRange;
+        double newYMax = _model.getYMax() - (yShift / _model.getImageHeight()) * yRange;
+
+        _model.setLimits(newXMin, newXMax, newYMin, newYMax);
+        _view.drawMandelbrotSet();
+    }
 }

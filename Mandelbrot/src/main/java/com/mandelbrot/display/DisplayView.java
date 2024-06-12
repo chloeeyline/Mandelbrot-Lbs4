@@ -10,39 +10,38 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class DisplayView extends Pane {
-    private final Canvas canvas;
-    private final WritableImage image;
-    private DisplayController controller;
+    private final Canvas _canvas;
+    private final WritableImage _image;
+    private DisplayController _controller;
 
     private Rectangle _dragZoomRect;
-    private boolean dragging;
-    private boolean movedMouse = false;
-    private double startX, startY;
-    private int mouseAction;
+    private boolean _dragging, _movedMouse = false;
+    private double _startX, _startY, _dragOffsetX = 0, _dragOffsetY = 0;
+    private int _mouseAction;
 
     private static final int MOUSE_ACTION_DRAG = 1;
     private static final int MOUSE_ACTION_ZOOM_IN = 2;
     private static final int MOUSE_ACTION_ZOOM_OUT = 3;
 
     public DisplayView() {
-        this.image = new WritableImage(800, 800);
-        this.canvas = new Canvas(800, 800);
-        getChildren().add(canvas);
-        canvas.setOnMousePressed(new MouseHandler());
-        canvas.setOnMouseReleased(new MouseHandler());
-        canvas.setOnMouseDragged(new MouseHandler());
+        this._image = new WritableImage(800, 800);
+        this._canvas = new Canvas(800, 800);
+        getChildren().add(_canvas);
+        _canvas.setOnMousePressed(new MouseHandler());
+        _canvas.setOnMouseReleased(new MouseHandler());
+        _canvas.setOnMouseDragged(new MouseHandler());
     }
 
     public void setController(DisplayController controller) {
-        this.controller = controller;
+        this._controller = controller;
     }
 
     public void drawMandelbrotSet() {
-        PixelWriter pixelWriter = image.getPixelWriter();
-        controller.drawMandelbrotSet(pixelWriter);
+        PixelWriter pixelWriter = _image.getPixelWriter();
+        _controller.drawMandelbrotSet(pixelWriter);
         // Ensure the image is drawn on the JavaFX Application Thread
         javafx.application.Platform.runLater(() -> {
-            canvas.getGraphicsContext2D().drawImage(image, 0, 0);
+            _canvas.getGraphicsContext2D().drawImage(_image, 0, 0);
         });
     }
 
@@ -59,51 +58,55 @@ public class DisplayView extends Pane {
         }
 
         private void handleMousePressed(MouseEvent evt) {
-            if (dragging) return;
-            startX = evt.getX();
-            startY = evt.getY();
-            if (startX > getWidth() || startY > getHeight()) return;
+            if (_dragging) return;
+            _startX = evt.getX();
+            _startY = evt.getY();
+            if (_startX > getWidth() || _startY > getHeight()) return;
 
-            if (evt.isPrimaryButtonDown()) mouseAction = MOUSE_ACTION_DRAG;
-            else if (evt.isSecondaryButtonDown()) mouseAction = MOUSE_ACTION_ZOOM_IN;
-            else if (evt.isMiddleButtonDown()) mouseAction = MOUSE_ACTION_ZOOM_OUT;
+            if (evt.isPrimaryButtonDown()) _mouseAction = MOUSE_ACTION_DRAG;
+            else if (evt.isSecondaryButtonDown()) _mouseAction = MOUSE_ACTION_ZOOM_IN;
+            else if (evt.isMiddleButtonDown()) _mouseAction = MOUSE_ACTION_ZOOM_OUT;
             else return;
 
-            dragging = true;
-            movedMouse = false;
+            _dragging = true;
+            _movedMouse = false;
         }
 
         private void handleMouseReleased(MouseEvent evt) {
-            if (!dragging) return;
+            if (!_dragging) return;
 
-            if (mouseAction == MOUSE_ACTION_DRAG) {
-                // Implement your logic to handle dragging
-            } else if (mouseAction == MOUSE_ACTION_ZOOM_IN && _dragZoomRect != null) {
-                controller.doZoomInOnRect(_dragZoomRect);
-                getChildren().remove(_dragZoomRect);
-                drawMandelbrotSet();
-            } else if (mouseAction == MOUSE_ACTION_ZOOM_OUT && _dragZoomRect != null) {
-//                doZoomOutFromRect(dragZoomRect);
+            if (_mouseAction == MOUSE_ACTION_DRAG && (_dragOffsetX != 0 || _dragOffsetY != 0)) {
+                _controller.doDrag(_startX, _startY, evt.getX(), evt.getY());
+            } else if (_mouseAction == MOUSE_ACTION_ZOOM_IN && _dragZoomRect != null) {
+                _controller.doZoomInOnRect(_dragZoomRect);
+            } else if (_mouseAction == MOUSE_ACTION_ZOOM_OUT && _dragZoomRect != null) {
+                _controller.doZoomOutFromRect(_dragZoomRect);
             }
 
             getChildren().remove(_dragZoomRect);
-            dragging = false;
+            _dragging = false;
             _dragZoomRect = null;
+            _dragOffsetX = 0;
+            _dragOffsetY = 0;
+            drawMandelbrotSet();
         }
 
         private void handleMouseDragged(MouseEvent evt) {
-            if (!dragging) return;
+            if (!_dragging) return;
             double x = evt.getX();
             double y = evt.getY();
 
-            double offsetX = x - startX;
-            double offsetY = y - startY;
-            if (!movedMouse && Math.abs(offsetX) < 3 && Math.abs(offsetY) < 3) return;
-            movedMouse = true;
+            double offsetX = x - _startX;
+            double offsetY = y - _startY;
+            if (!_movedMouse && Math.abs(offsetX) < 3 && Math.abs(offsetY) < 3) return;
+            _movedMouse = true;
 
-            if (mouseAction == MOUSE_ACTION_DRAG) {
-                // Implement your logic to handle dragging
-            } else if (mouseAction == MOUSE_ACTION_ZOOM_IN || mouseAction == MOUSE_ACTION_ZOOM_OUT) {
+            if (_mouseAction == MOUSE_ACTION_DRAG) {
+                _dragOffsetX = offsetX;
+                _dragOffsetY = offsetY;
+
+                redraw();
+            } else if (_mouseAction == MOUSE_ACTION_ZOOM_IN || _mouseAction == MOUSE_ACTION_ZOOM_OUT) {
                 double width = Math.abs(offsetX);
                 double height = Math.abs(offsetY);
                 if (width < 3 || height < 3) {
@@ -114,8 +117,8 @@ public class DisplayView extends Pane {
                     double rectAspect = width / height;
                     if (aspect > rectAspect) width = width * aspect / rectAspect + 0.499;
                     else if (aspect < rectAspect) height = height * rectAspect / aspect + 0.499;
-                    double xMin = startX < x ? startX : startX - width;
-                    double yMin = startY < y ? startY : startY - height;
+                    double xMin = _startX < x ? _startX : _startX - width;
+                    double yMin = _startY < y ? _startY : _startY - height;
                     getChildren().remove(_dragZoomRect);
                     _dragZoomRect = new Rectangle(xMin, yMin, width, height);
                     _dragZoomRect.setStroke(Color.BLACK);
@@ -123,6 +126,15 @@ public class DisplayView extends Pane {
                     getChildren().add(_dragZoomRect);
                 }
             }
+        }
+
+        private void redraw() {
+            // Clear the canvas
+            _canvas.getGraphicsContext2D().setFill(Color.LIGHTGRAY);
+            _canvas.getGraphicsContext2D().fillRect(0, 0, _canvas.getWidth(), _canvas.getHeight());
+
+            // Draw the shifted image
+            _canvas.getGraphicsContext2D().drawImage(_image, _dragOffsetX, _dragOffsetY);
         }
     }
 }
