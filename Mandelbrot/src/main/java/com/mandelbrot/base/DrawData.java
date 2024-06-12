@@ -1,68 +1,50 @@
 package com.mandelbrot.base;
 
-import java.math.BigDecimal;
-
 public abstract class DrawData {
-    // Constants for default values
-    protected static final BigDecimal DEFAULT_XMIN = BigDecimal.ZERO;
-    protected static final BigDecimal DEFAULT_XMAX = BigDecimal.ONE;
-    protected static final BigDecimal DEFAULT_YMIN = BigDecimal.ZERO;
-    protected static final BigDecimal DEFAULT_YMAX = BigDecimal.ONE;
-    protected static final int DEFAULT_ITERATION = 1000;
-
     // Instance variables
-    protected BigDecimal xMin;
-    protected BigDecimal xMax;
-    protected BigDecimal yMin;
-    protected BigDecimal yMax;
-    protected Integer iteration;
+    protected double _xMin;
+    protected double _xMax;
+    protected double _yMin;
+    protected double _yMax;
+    protected int _maxIteration;
 
     // Constructor initializing with default values
     public DrawData() {
-        this.xMin = DEFAULT_XMIN;
-        this.xMax = DEFAULT_XMAX;
-        this.yMin = DEFAULT_YMIN;
-        this.yMax = DEFAULT_YMAX;
-        this.iteration = DEFAULT_ITERATION;
+        this._xMin = -2.5;
+        this._xMax = 1.5;
+        this._yMin = -2;
+        this._yMax = 2;
+        this._maxIteration = 1000;
     }
 
-    public BigDecimal getXMin() {
-        return xMin;
+    public double getXMin() {
+        return this._xMin;
     }
 
-    public void setXMin(BigDecimal xMin) {
-        this.xMin = xMin;
+    public double getXMax() {
+        return this._xMax;
     }
 
-    public BigDecimal getXMax() {
-        return xMax;
+    public double getYMin() {
+        return this._yMin;
+    }
+    
+    public double getYMax() {
+        return this._yMax;
     }
 
-    public void setXMax(BigDecimal xMax) {
-        this.xMax = xMax;
+    public int getMaxIteration() {
+        return this._maxIteration;
     }
 
-    public BigDecimal getYMin() {
-        return yMin;
+    public void setMaxIteration(int maxIteration) {
+        this._maxIteration = maxIteration;
     }
 
-    public void setYMin(BigDecimal yMin) {
-        this.yMin = yMin;
-    }
-
-    public BigDecimal getYMax() {
-        return yMax;
-    }
-
-    public void setYMax(BigDecimal yMax) {
-        this.yMax = yMax;
-    }
-
-    public Integer getIteration() {
-        return iteration;
-    }
-
-    public void setIteration(Integer iteration) {
-        this.iteration = iteration;
+    public void setLimits(double xMin, double xMax, double yMin, double yMax) {
+        this._xMin = xMin;
+        this._xMax = xMax;
+        this._yMin = yMin;
+        this._yMax = yMax;
     }
 }

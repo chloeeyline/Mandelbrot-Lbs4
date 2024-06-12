@@ -20,12 +20,12 @@ public class StartupApplication extends Application {
 
         //MVC for Display
         DisplayModel displayModel = new DisplayModel();
-        DisplayView displayView = new DisplayView(displayModel);
+        DisplayView displayView = new DisplayView();
         DisplayController displayController = new DisplayController(displayModel, displayView);
 
         //MainContainer for Menu/Display/TitleBar
         VBox root = new VBox();
-        root.getChildren().addAll(MenuView.createMenuBar(), displayView.getCanvas());
+        root.getChildren().addAll(MenuView.createMenuBar(), displayView);
         Scene scene = new Scene(root);
 
         //Stage for the MainWindow
