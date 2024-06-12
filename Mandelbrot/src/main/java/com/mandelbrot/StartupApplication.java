@@ -22,7 +22,7 @@ public class StartupApplication extends Application {
         MenuBarView MenuView = new MenuBarView(MenuController);
 
         DisplayModel model = new DisplayModel();
-        DisplayView view = new DisplayView(model, WIDTH, HEIGHT);
+        DisplayView view = new DisplayView();
         new DisplayController(model, view);
 
         //MVC for Display
