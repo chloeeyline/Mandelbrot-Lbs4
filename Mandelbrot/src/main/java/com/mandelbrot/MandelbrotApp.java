@@ -1,6 +1,7 @@
 package com.mandelbrot;
 
-import MenuBarPackage.MenuBarView;
+import MenuBar.MenuBarController;
+import MenuBar.MenuBarView;
 import com.mandelbrot.display.DisplayController;
 import com.mandelbrot.display.DisplayModel;
 import com.mandelbrot.display.DisplayView;
@@ -8,7 +9,6 @@ import javafx.application.Application;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 
 public class MandelbrotApp extends Application {
     private static final int WIDTH = 800;
@@ -20,7 +20,10 @@ public class MandelbrotApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        MenuBarView MenuView = new MenuBarView();
+
+        MenuBarController MenuController = new MenuBarController();
+        MenuBarView MenuView = new MenuBarView(MenuController);
+
         DisplayModel model = new DisplayModel();
         DisplayView view = new DisplayView(model, WIDTH, HEIGHT);
         new DisplayController(model, view);
