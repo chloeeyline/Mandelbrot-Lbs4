@@ -1,17 +1,17 @@
 package com.mandelbrot.display;
 
+import com.mandelbrot.base.BaseView;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class DisplayView extends Pane {
-    private final Canvas _canvas;
-    private final WritableImage _image;
+public class DisplayView extends BaseView<DisplayController> {
+    private Canvas _canvas;
+    private WritableImage _image;
     private DisplayController _controller;
 
     private Rectangle _dragZoomRect;
@@ -23,10 +23,15 @@ public class DisplayView extends Pane {
     private static final int MOUSE_ACTION_ZOOM_IN = 2;
     private static final int MOUSE_ACTION_ZOOM_OUT = 3;
 
-    public DisplayView() {
-        this._image = new WritableImage(800, 800);
-        this._canvas = new Canvas(800, 800);
+    @Override
+    public void DefineControls() {
+        _image = new WritableImage(800, 800);
+        _canvas = new Canvas(800, 800);
         getChildren().add(_canvas);
+    }
+
+    @Override
+    public void BindActions() {
         _canvas.setOnMousePressed(new MouseHandler());
         _canvas.setOnMouseReleased(new MouseHandler());
         _canvas.setOnMouseDragged(new MouseHandler());

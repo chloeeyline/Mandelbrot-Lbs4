@@ -1,15 +1,15 @@
-package com.mandelbrot.base;
+package com.mandelbrot.display;
 
-public abstract class DrawData {
+public class DisplayDataModel {
     // Instance variables
-    protected double _xMin;
-    protected double _xMax;
-    protected double _yMin;
-    protected double _yMax;
-    protected int _maxIteration;
+    private double _xMin;
+    private double _xMax;
+    private double _yMin;
+    private double _yMax;
+    private int _maxIteration;
 
     // Constructor initializing with default values
-    public DrawData() {
+    public DisplayDataModel() {
         this._xMin = -2.5;
         this._xMax = 1.5;
         this._yMin = -2;
@@ -28,7 +28,7 @@ public abstract class DrawData {
     public double getYMin() {
         return this._yMin;
     }
-    
+
     public double getYMax() {
         return this._yMax;
     }

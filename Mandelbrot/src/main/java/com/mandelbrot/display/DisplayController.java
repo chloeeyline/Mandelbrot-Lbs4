@@ -1,27 +1,22 @@
 package com.mandelbrot.display;
 
+import com.mandelbrot.base.BaseController;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.shape.Rectangle;
 
-public class DisplayController {
-    private final DisplayModel _model;
-    private final DisplayView _view;
-
+public class DisplayController extends BaseController<DisplayView, DisplayModel> {
     public DisplayController(DisplayModel model, DisplayView view) {
-        this._model = model;
-        this._view = view;
-
-        this._view.setController(this);
-        this._view.drawMandelbrotSet();
+        super(model,view);
+        _view.drawMandelbrotSet();
     }
 
     public void drawMandelbrotSet(PixelWriter pw) {
-        for (int x = 0; x < _model.getImageWidth(); x++) {
-            for (int y = 0; y < _model.getImageHeight(); y++) {
+        for (int x = 0; x < getModel().getViewDataModel().getImageWidth(); x++) {
+            for (int y = 0; y < getModel().getViewDataModel().getImageHeight(); y++) {
                 double zx = 0;
                 double zy = 0;
-                double cX = _model.getXMin() + (x / _model.getImageWidth()) * (_model.getXMax() - _model.getXMin());
-                double cY = _model.getYMin() + (y / _model.getImageHeight()) * (_model.getYMax() - _model.getYMin());
+                double cX = getModel().getDataModel().getXMin() + (x / getModel().getViewDataModel().getImageWidth()) * (getModel().getDataModel().getXMax() - getModel().getDataModel().getXMin());
+                double cY = getModel().getDataModel().getYMin() + (y / getModel().getViewDataModel().getImageHeight()) * (getModel().getDataModel().getYMax() - getModel().getDataModel().getYMin());
                 int iter = _model.computeIterations(zx, zy, cX, cY);
                 pw.setColor(x, y, _model.getColor(iter));
             }
@@ -29,11 +24,11 @@ public class DisplayController {
     }
 
     public void doZoomInOnRect(Rectangle rect) {
-        double newXMin = _model.getXMin() + (rect.getX() / _model.getImageWidth()) * (_model.getXMax() - _model.getXMin());
-        double newXMax = _model.getXMin() + ((rect.getX() + rect.getWidth()) / _model.getImageWidth()) * (_model.getXMax() - _model.getXMin());
-        double newYMin = _model.getYMin() + (rect.getY() / _model.getImageHeight()) * (_model.getYMax() - _model.getYMin());
-        double newYMax = _model.getYMin() + ((rect.getY() + rect.getHeight()) / _model.getImageHeight()) * (_model.getYMax() - _model.getYMin());
-        _model.setLimits(newXMin, newXMax, newYMin, newYMax);
+        double newXMin = getModel().getDataModel().getXMin() + (rect.getX() / getModel().getViewDataModel().getImageWidth()) * (getModel().getDataModel().getXMax() - getModel().getDataModel().getXMin());
+        double newXMax = getModel().getDataModel().getXMin() + ((rect.getX() + rect.getWidth()) / getModel().getViewDataModel().getImageWidth()) * (getModel().getDataModel().getXMax() - getModel().getDataModel().getXMin());
+        double newYMin = getModel().getDataModel().getYMin() + (rect.getY() / getModel().getViewDataModel().getImageHeight()) * (getModel().getDataModel().getYMax() - getModel().getDataModel().getYMin());
+        double newYMax = getModel().getDataModel().getYMin() + ((rect.getY() + rect.getHeight()) / getModel().getViewDataModel().getImageHeight()) * (getModel().getDataModel().getYMax() - getModel().getDataModel().getYMin());
+        getModel().getDataModel().setLimits(newXMin, newXMax, newYMin, newYMax);
     }
 
     public void doZoomOutFromRect(Rectangle rect) {
@@ -41,35 +36,35 @@ public class DisplayController {
         double rectY = rect.getY();
         double rectW = rect.getWidth();
         double rectH = rect.getHeight();
-        double imageWidth = _model.getImageWidth();
-        double imageHeight = _model.getImageHeight();
+        double imageWidth = getModel().getViewDataModel().getImageWidth();
+        double imageHeight = getModel().getViewDataModel().getImageHeight();
 
-        double newPixelWidth = (_model.getXMax() - _model.getXMin()) / rectW;
-        double newPixelHeight = (_model.getYMax() - _model.getYMin()) / rectH;
+        double newPixelWidth = (getModel().getDataModel().getXMax() - getModel().getDataModel().getXMin()) / rectW;
+        double newPixelHeight = (getModel().getDataModel().getYMax() - getModel().getDataModel().getYMin()) / rectH;
 
-        double newXMin = _model.getXMin() - newPixelWidth * rectX;
-        double newYMax = _model.getYMax() + newPixelHeight * rectY;
+        double newXMin = getModel().getDataModel().getXMin() - newPixelWidth * rectX;
+        double newYMax = getModel().getDataModel().getYMax() + newPixelHeight * rectY;
         double newWidth = newPixelWidth * imageWidth;
         double newHeight = newPixelHeight * imageHeight;
         double newXMax = newXMin + newWidth;
         double newYMin = newYMax - newHeight;
 
-        _model.setLimits(newXMin, newXMax, newYMin, newYMax);
+        getModel().getDataModel().setLimits(newXMin, newXMax, newYMin, newYMax);
     }
 
     public void doDrag(double startX, double startY, double endX, double endY) {
         double xShift = endX - startX;
         double yShift = endY - startY;
 
-        double xRange = _model.getXMax() - _model.getXMin();
-        double yRange = _model.getYMax() - _model.getYMin();
+        double xRange = getModel().getDataModel().getXMax() - getModel().getDataModel().getXMin();
+        double yRange = getModel().getDataModel().getYMax() - getModel().getDataModel().getYMin();
 
-        double newXMin = _model.getXMin() - (xShift / _model.getImageWidth()) * xRange;
-        double newXMax = _model.getXMax() - (xShift / _model.getImageWidth()) * xRange;
-        double newYMin = _model.getYMin() - (yShift / _model.getImageHeight()) * yRange;
-        double newYMax = _model.getYMax() - (yShift / _model.getImageHeight()) * yRange;
+        double newXMin = getModel().getDataModel().getXMin() - (xShift / getModel().getViewDataModel().getImageWidth()) * xRange;
+        double newXMax = getModel().getDataModel().getXMax() - (xShift / getModel().getViewDataModel().getImageWidth()) * xRange;
+        double newYMin = getModel().getDataModel().getYMin() - (yShift / getModel().getViewDataModel().getImageHeight()) * yRange;
+        double newYMax = getModel().getDataModel().getYMax() - (yShift / getModel().getViewDataModel().getImageHeight()) * yRange;
 
-        _model.setLimits(newXMin, newXMax, newYMin, newYMax);
+        getModel().getDataModel().setLimits(newXMin, newXMax, newYMin, newYMax);
         _view.drawMandelbrotSet();
     }
 }
