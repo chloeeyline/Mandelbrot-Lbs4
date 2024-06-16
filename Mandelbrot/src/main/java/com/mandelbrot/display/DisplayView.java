@@ -25,8 +25,8 @@ public class DisplayView extends BaseView<DisplayController> {
 
     @Override
     public void DefineControls() {
-        _image = new WritableImage(800, 800);
-        _canvas = new Canvas(800, 800);
+        _image = new WritableImage(600, 600);
+        _canvas = new Canvas(600, 600);
         getChildren().add(_canvas);
     }
 

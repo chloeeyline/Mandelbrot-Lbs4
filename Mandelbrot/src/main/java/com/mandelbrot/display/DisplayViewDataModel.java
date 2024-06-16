@@ -1,8 +1,8 @@
 package com.mandelbrot.display;
 
 public class DisplayViewDataModel {
-    private double _imageWidth = 800;
-    private double _imageHeight = 800;
+    private double _imageWidth = 600;
+    private double _imageHeight = 600;
 
     public double getImageHeight() {
         return this._imageHeight;

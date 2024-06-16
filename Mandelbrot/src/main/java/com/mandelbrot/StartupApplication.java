@@ -1,11 +1,14 @@
 package com.mandelbrot;
 
-import MenuBar.MenuBarController;
-import MenuBar.MenuBarView;
+import com.mandelbrot.menuBar.MenuBarController;
+import com.mandelbrot.menuBar.MenuBarModel;
+import com.mandelbrot.menuBar.MenuBarView;
 import com.mandelbrot.display.DisplayController;
 import com.mandelbrot.display.DisplayModel;
 import com.mandelbrot.display.DisplayView;
 import javafx.application.Application;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -18,8 +21,9 @@ public class StartupApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        MenuBarController MenuController = new MenuBarController();
-        MenuBarView MenuView = new MenuBarView(MenuController);
+        MenuBarModel menuBarModel = new MenuBarModel();
+        MenuBarView MenuView = new MenuBarView();
+        MenuBarController MenuController = new MenuBarController(menuBarModel, MenuView);
 
         DisplayModel model = new DisplayModel();
         DisplayView view = new DisplayView();
@@ -32,7 +36,7 @@ public class StartupApplication extends Application {
 
         //MainContainer for Menu/Display/TitleBar
         VBox root = new VBox();
-        root.getChildren().addAll(MenuView.createMenuBar(), displayView);
+        root.getChildren().addAll(MenuView, displayView);
         Scene scene = new Scene(root);
 
         //Stage for the MainWindow
