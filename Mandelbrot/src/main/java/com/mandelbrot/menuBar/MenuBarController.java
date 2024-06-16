@@ -3,6 +3,10 @@ package com.mandelbrot.menuBar;
 import com.mandelbrot.base.BaseController;
 
 public class MenuBarController extends BaseController<MenuBarView, MenuBarModel> {
+
+   private MenuBarModel _model;
+   private MenuBarView _view;
+
     /**
      * Constructor for BaseController.
      *
@@ -11,6 +15,8 @@ public class MenuBarController extends BaseController<MenuBarView, MenuBarModel>
      */
     public MenuBarController(MenuBarModel model, MenuBarView view) {
         super(model, view);
+        _model = model;
+        _view = view;
     }
 
     public void openFile(){
@@ -24,4 +30,6 @@ public class MenuBarController extends BaseController<MenuBarView, MenuBarModel>
     public void Color(){
 
     }
+
+
 }
