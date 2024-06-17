@@ -9,6 +9,4 @@ module com.mandelbrot {
     exports com.mandelbrot;
     exports com.mandelbrot.display;
     opens com.mandelbrot.display to javafx.fxml;
-    exports MenuBar;
-    opens MenuBar to javafx.fxml;
 }

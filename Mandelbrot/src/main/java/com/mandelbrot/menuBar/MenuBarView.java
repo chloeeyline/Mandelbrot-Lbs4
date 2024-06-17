@@ -91,7 +91,7 @@ public class MenuBarView extends BaseView<MenuBarController> {
         _rbCustom.setOnAction(e ->{
             String maxIteration = JOptionPane.showInputDialog("What is the max iteration count");});
 
-        _toggleGroupIterations.getSelectedToggle().getUserData();
+       // _toggleGroupIterations.getSelectedToggle().getUserData();
 
         _helper.setOnAction(e -> {});
 
