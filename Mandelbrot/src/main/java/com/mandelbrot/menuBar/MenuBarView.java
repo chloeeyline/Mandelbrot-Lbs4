@@ -3,7 +3,6 @@ package com.mandelbrot.menuBar;
 import com.mandelbrot.base.BaseView;
 import javafx.scene.control.*;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,10 +87,9 @@ public class MenuBarView extends BaseView<MenuBarController> {
         _saveFile.setOnAction(e -> {
             this._controller.SaveImage();});
 
-        _rbCustom.setOnAction(e ->{
-            String maxIteration = JOptionPane.showInputDialog("What is the max iteration count");});
+        _rbCustom.setOnAction(e ->{});
 
-        _toggleGroupIterations.getSelectedToggle().getUserData();
+        //_toggleGroupIterations.getSelectedToggle().getUserData();
 
         _helper.setOnAction(e -> {});
 
