@@ -1,10 +1,10 @@
 package com.mandelbrot.taskBar;
 
-import com.mandelbrot.base.BaseView;
+import com.mandelbrot.base.BasePaneView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 
-public class TaskBarView extends BaseView<TaskBarController> {
+public class TaskBarView extends BasePaneView<TaskBarController> {
 
     private Menu _setLimits;
 

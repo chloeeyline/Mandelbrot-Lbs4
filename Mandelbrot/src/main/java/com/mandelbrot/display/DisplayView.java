@@ -1,10 +1,10 @@
 package com.mandelbrot.display;
 
-import com.mandelbrot.base.BaseView;
+import com.mandelbrot.base.BasePaneView;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.WritableImage;
 
-public class DisplayView extends BaseView<DisplayController> {
+public class DisplayView extends BasePaneView<DisplayController> {
     private Canvas _canvas;
     private WritableImage _image;
 

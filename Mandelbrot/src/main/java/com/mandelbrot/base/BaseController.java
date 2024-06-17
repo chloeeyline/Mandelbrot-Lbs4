@@ -4,7 +4,7 @@ package com.mandelbrot.base;
  * BaseController is the base class for controllers in the MVC pattern.
  * It manages the interaction between the model and the view.
  *
- * @param <TView> The type of the view, which extends BaseView.
+ * @param <TView>  The type of the view, which extends BaseView.
  * @param <TModel> The type of the model, which extends BaseModel.
  */
 public class BaseController<TView extends BaseView, TModel extends BaseModel> {
@@ -21,7 +21,7 @@ public class BaseController<TView extends BaseView, TModel extends BaseModel> {
      * Constructor for BaseController.
      *
      * @param model The model assigned to this controller.
-     * @param view The view assigned to this controller.
+     * @param view  The view assigned to this controller.
      */
     public BaseController(TModel model, TView view) {
         this._model = model;
