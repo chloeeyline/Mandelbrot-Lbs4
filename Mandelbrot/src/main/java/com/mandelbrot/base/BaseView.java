@@ -1,37 +1,28 @@
 package com.mandelbrot.base;
 
-import javafx.scene.layout.Pane;
-
 /**
- * BaseView is the abstract base class for views in the MVC pattern.
+ * BaseView is the interface for views in the MVC pattern.
  * It defines the basic methods for controlling the view.
  *
  * @param <TController> The type of the controller, which extends BaseController.
  */
-public abstract class BaseView<TController extends BaseController> extends Pane {
+public interface BaseView<TController extends BaseController> {
     /**
-     * The controller associated with this view.
+     * Defines the controls in the view.
+     * This method must be implemented by implementing classes.
      */
-    protected TController _controller;
+    void DefineControls();
 
     /**
-     * Abstract method to define the controls in the view.
-     * This method must be implemented by subclasses.
+     * Binds the actions in the view.
+     * This method must be implemented by implementing classes.
      */
-    public abstract void DefineControls();
-
-    /**
-     * Abstract method to bind the actions in the view.
-     * This method must be implemented by subclasses.
-     */
-    public abstract void BindActions();
+    void BindActions();
 
     /**
      * Sets the controller for this view.
      *
      * @param controller The controller to be assigned to this view.
      */
-    public void setController(TController controller) {
-        this._controller = controller;
-    }
+    void setController(TController controller);
 }

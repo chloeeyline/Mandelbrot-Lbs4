@@ -4,7 +4,7 @@ package com.mandelbrot.base;
  * BaseModel is the base class for models in the MVC pattern.
  * It manages the data and its representation.
  *
- * @param <TData> The type of the data managed by this model.
+ * @param <TData>     The type of the data managed by this model.
  * @param <TViewData> The type of the view data managed by this model.
  */
 public class BaseModel<TData, TViewData> {

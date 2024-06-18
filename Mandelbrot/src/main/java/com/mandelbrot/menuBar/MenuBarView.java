@@ -1,12 +1,12 @@
 package com.mandelbrot.menuBar;
 
-import com.mandelbrot.base.BaseView;
+import com.mandelbrot.base.BasePaneView;
 import javafx.scene.control.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuBarView extends BaseView<MenuBarController> {
+public class MenuBarView extends BasePaneView<MenuBarController> {
 
     private MenuItem _openFile;
     private MenuItem _saveFile;

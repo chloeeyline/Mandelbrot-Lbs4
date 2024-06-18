@@ -1,8 +1,8 @@
 package com.mandelbrot.colorPicker;
 
-import com.mandelbrot.base.BaseView;
+import com.mandelbrot.base.BasePaneView;
 
-public class ColorPickerView extends BaseView<ColorPickerController> {
+public class ColorPickerView extends BasePaneView<ColorPickerController> {
     @Override
     public void DefineControls() {
 
