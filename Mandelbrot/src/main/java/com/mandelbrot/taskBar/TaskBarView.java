@@ -1,6 +1,7 @@
 package com.mandelbrot.taskBar;
 
 import com.mandelbrot.base.BaseView;
+import com.mandelbrot.taskBar.limitsDialog.LimitsDialog;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 
@@ -24,7 +25,10 @@ public class TaskBarView extends BaseView<TaskBarController> {
     @Override
     public void BindActions() {
 
-        _setLimits.setOnAction(e ->{});
+        _setLimits.setOnAction(e ->{
+            //LimitsDialog limitsDialog = new LimitsDialog();
+            //limitsDialog.start(stage);
+        });
 
     }
 

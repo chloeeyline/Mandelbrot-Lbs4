@@ -3,6 +3,7 @@ module com.mandelbrot {
     requires javafx.fxml;
     requires java.xml;
     requires java.desktop;
+    requires java.logging;
 
 
     opens com.mandelbrot to javafx.fxml;
