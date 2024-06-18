@@ -24,7 +24,7 @@ public class DisplayModel extends BaseModel<DisplayDataModel, DisplayViewDataMod
 
     public Color getColor(int iter) {
         if (iter == 0) {
-            return Color.BLACK;
+            return getDataModel().getBackgroundColor();
         }
         double hue = 360.0 * iter / getDataModel().getMaxIteration();
         return Color.hsb(hue, 1.0, iter / (iter + 8.0));
@@ -44,7 +44,7 @@ public class DisplayModel extends BaseModel<DisplayDataModel, DisplayViewDataMod
 
         getDataModel().setLimits(newXMin, newXMax, newYMin, newYMax);
     }
-    
+
     public void doZoomInOnRect() {
         double newXMin = getDataModel().getXMin() + (getViewDataModel().getDragZoomRect().getX() / getViewDataModel().getImageWidth()) * (getDataModel().getXMax() - getDataModel().getXMin());
         double newXMax = getDataModel().getXMin() + ((getViewDataModel().getDragZoomRect().getX() + getViewDataModel().getDragZoomRect().getWidth()) / getViewDataModel().getImageWidth()) * (getDataModel().getXMax() - getDataModel().getXMin());
@@ -52,9 +52,9 @@ public class DisplayModel extends BaseModel<DisplayDataModel, DisplayViewDataMod
         double newYMax = getDataModel().getYMin() + ((getViewDataModel().getDragZoomRect().getY() + getViewDataModel().getDragZoomRect().getHeight()) / getViewDataModel().getImageHeight()) * (getDataModel().getYMax() - getDataModel().getYMin());
         getDataModel().setLimits(newXMin, newXMax, newYMin, newYMax);
     }
-    
+
     public void doZoomOutFromRect() {
-        if(getViewDataModel().getDragZoomRect() == null) return;
+        if (getViewDataModel().getDragZoomRect() == null) return;
         double rectX = getViewDataModel().getDragZoomRect().getX();
         double rectY = getViewDataModel().getDragZoomRect().getY();
         double rectW = getViewDataModel().getDragZoomRect().getWidth();

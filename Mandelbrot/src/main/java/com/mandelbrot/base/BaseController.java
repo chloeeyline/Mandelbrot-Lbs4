@@ -11,11 +11,11 @@ public class BaseController<TView extends BaseView, TModel extends BaseModel> {
     /**
      * The view managed by this controller.
      */
-    protected TView _view;
+    private TView _view;
     /**
      * The model managed by this controller.
      */
-    protected TModel _model;
+    private TModel _model;
 
     /**
      * Constructor for BaseController.

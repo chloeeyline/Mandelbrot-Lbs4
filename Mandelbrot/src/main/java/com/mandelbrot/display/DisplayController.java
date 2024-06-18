@@ -34,7 +34,7 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel>
 
     public void mouseReleased(MouseEvent evt) {
         if (getModel().getViewDataModel().isDragging()) {
-            getView().getChildren().remove(getModel().getViewDataModel().getDragZoomRect());
+            getView().getDisplayPane().getChildren().remove(getModel().getViewDataModel().getDragZoomRect());
             getModel().mouseReleased(evt.getX(), evt.getY());
             drawMandelbrotSet();
         }
@@ -65,7 +65,7 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel>
             double width = Math.abs(offsetX);
             double height = Math.abs(offsetY);
             if (width < 3 || height < 3) {
-                getView().getChildren().remove(getModel().getViewDataModel().getDragZoomRect());
+                getView().getDisplayPane().getChildren().remove(getModel().getViewDataModel().getDragZoomRect());
                 getModel().getViewDataModel().setDragZoomRect(null);
             } else {
                 double aspect = getModel().getViewDataModel().getImageWidth() / getModel().getViewDataModel().getImageHeight();
@@ -74,11 +74,11 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel>
                 else if (aspect < rectAspect) height = height * rectAspect / aspect + 0.499;
                 double xMin = getModel().getViewDataModel().getStartX() < x ? getModel().getViewDataModel().getStartX() : getModel().getViewDataModel().getStartX() - width;
                 double yMin = getModel().getViewDataModel().getStartY() < y ? getModel().getViewDataModel().getStartY() : getModel().getViewDataModel().getStartY() - height;
-                getView().getChildren().remove(getModel().getViewDataModel().getDragZoomRect());
+                getView().getDisplayPane().getChildren().remove(getModel().getViewDataModel().getDragZoomRect());
                 getModel().getViewDataModel().setDragZoomRect(new Rectangle(xMin, yMin, width, height));
                 getModel().getViewDataModel().getDragZoomRect().setStroke(Color.BLACK);
                 getModel().getViewDataModel().getDragZoomRect().setFill(Color.TRANSPARENT);
-                getView().getChildren().add(getModel().getViewDataModel().getDragZoomRect());
+                getView().getDisplayPane().getChildren().add(getModel().getViewDataModel().getDragZoomRect());
             }
         }
     }

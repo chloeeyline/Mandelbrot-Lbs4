@@ -1,5 +1,7 @@
 package com.mandelbrot.display;
 
+import javafx.scene.paint.Color;
+
 public class DisplayDataModel {
     // Instance variables
     private double _xMin;
@@ -7,6 +9,7 @@ public class DisplayDataModel {
     private double _yMin;
     private double _yMax;
     private int _maxIteration;
+    private Color _BackgroundColor = Color.BLACK;
 
     // Constructor initializing with default values
     public DisplayDataModel() {
@@ -39,6 +42,14 @@ public class DisplayDataModel {
 
     public void setMaxIteration(int maxIteration) {
         this._maxIteration = maxIteration;
+    }
+
+    public Color getBackgroundColor() {
+        return _BackgroundColor;
+    }
+
+    public void setBackgroundColor(Color backgroundColor) {
+        _BackgroundColor = backgroundColor;
     }
 
     public void setLimits(double xMin, double xMax, double yMin, double yMax) {
