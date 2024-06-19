@@ -3,7 +3,6 @@ package com.mandelbrot.display;
 import com.mandelbrot.base.BaseModel;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class DisplayModel extends BaseModel<DisplayDataModel, DisplayViewDataModel> {
     public DisplayModel() {

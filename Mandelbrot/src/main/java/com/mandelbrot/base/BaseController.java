@@ -65,6 +65,5 @@ public class BaseController<TView extends BaseView, TModel extends BaseModel> {
         this._view = view;
         this._view.setController(this);
         this._view.DefineControls();
-        this._view.BindActions();
     }
 }

@@ -27,9 +27,7 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel>
         }
 
         // Ensure the image is drawn on the JavaFX Application Thread
-        javafx.application.Platform.runLater(() -> {
-            getView().getCanvas().getGraphicsContext2D().drawImage(getView().getImage(), 0, 0);
-        });
+        javafx.application.Platform.runLater(() -> getView().getCanvas().getGraphicsContext2D().drawImage(getView().getImage(), 0, 0));
     }
 
     public void mouseReleased(MouseEvent evt) {

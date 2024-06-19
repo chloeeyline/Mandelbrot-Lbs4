@@ -22,12 +22,6 @@ public abstract class BaseView<TController extends BaseController, TElement exte
      */
     public abstract void DefineControls();
 
-    /**
-     * Abstract method to bind the actions in the view.
-     * This method must be implemented by subclasses.
-     */
-    public abstract void BindActions();
-
     public TElement getMainNode() {
         return this._mainNode;
     }
