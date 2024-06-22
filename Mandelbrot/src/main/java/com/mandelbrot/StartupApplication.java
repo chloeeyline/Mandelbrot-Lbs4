@@ -1,8 +1,6 @@
 package com.mandelbrot;
 
-import com.mandelbrot.display.DisplayController;
-import com.mandelbrot.display.DisplayModel;
-import com.mandelbrot.display.DisplayView;
+import com.mandelbrot.display.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -16,8 +14,9 @@ public class StartupApplication extends Application {
     public void start(Stage primaryStage) {
         //MVC for Display
         DisplayModel displayModel = new DisplayModel();
+        DisplayViewData displayViewModel = new DisplayViewData();
         DisplayView displayView = new DisplayView();
-        new DisplayController(displayModel, displayView);
+        new DisplayController(displayView, displayModel, displayViewModel);
 
         //Stage for the MainWindow
         Scene scene = new Scene(displayView.getMainNode());

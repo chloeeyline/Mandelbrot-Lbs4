@@ -38,7 +38,7 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         _displayPane.getChildren().add(_canvas);
         _mainNode.getChildren().add(_displayPane);
 
-        _canvas.setOnMousePressed(evt -> _controller.getModel().mousePressed(evt));
+        _canvas.setOnMousePressed(evt -> _controller.mousePressed(evt));
         _canvas.setOnMouseReleased(evt -> _controller.mouseReleased(evt));
         _canvas.setOnMouseDragged(evt -> _controller.mouseDragged(evt));
     }
@@ -73,7 +73,7 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
             radioButton.setUserData(element);
             radioButton.setToggleGroup(toggleGroupIterations);
             radioButton.setOnAction(evt -> {
-                if (radioButton.isSelected()) getController().getModel().getDataModel().setMaxIteration(element);
+                if (radioButton.isSelected()) getController().getModel().setMaxIteration(element);
                 getController().drawMandelbrotSet();
             });
             menu.getItems().add(radioButton);
@@ -93,7 +93,7 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         menu.getItems().add(backgroundColor);
 
         backgroundColorPicker.setOnAction(evt -> {
-            getController().getModel().getDataModel().setBackgroundColor(backgroundColorPicker.getValue());
+            getController().getModel().setBackgroundColor(backgroundColorPicker.getValue());
             getController().drawMandelbrotSet();
         });
 

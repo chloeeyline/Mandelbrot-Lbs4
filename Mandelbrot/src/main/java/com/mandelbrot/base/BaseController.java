@@ -1,69 +1,40 @@
 package com.mandelbrot.base;
 
-/**
- * BaseController is the base class for controllers in the MVC pattern.
- * It manages the interaction between the model and the view.
- *
- * @param <TView>  The type of the view, which extends BaseView.
- * @param <TModel> The type of the model, which extends BaseModel.
- */
-public class BaseController<TView extends BaseView, TModel extends BaseModel> {
-    /**
-     * The view managed by this controller.
-     */
+public class BaseController<TView extends BaseView, TModel, TViewData> {
     private TView _view;
-    /**
-     * The model managed by this controller.
-     */
     private TModel _model;
+    private TViewData _viewData;
 
-    /**
-     * Constructor for BaseController.
-     *
-     * @param model The model assigned to this controller.
-     * @param view  The view assigned to this controller.
-     */
-    public BaseController(TModel model, TView view) {
-        this._model = model;
+    public BaseController(TView view, TModel dataModel, TViewData viewModel) {
         setView(view);
+        this._model = dataModel;
+        this._viewData = viewModel;
     }
 
-    /**
-     * Returns the currently assigned model.
-     *
-     * @return The currently assigned model.
-     */
-    public TModel getModel() {
-        return this._model;
-    }
-
-    /**
-     * Sets the model for this controller.
-     *
-     * @param model The model to be assigned to this controller.
-     */
-    public void setModel(TModel model) {
-        this._model = model;
-    }
-
-    /**
-     * Returns the currently assigned view.
-     *
-     * @return The currently assigned view.
-     */
     public TView getView() {
         return this._view;
     }
 
-    /**
-     * Sets the view for this controller and configures the control.
-     *
-     * @param view The view to be assigned to this controller.
-     */
     public void setView(TView view) {
         if (this._view != null) this._view.setController(null);
         this._view = view;
         this._view.setController(this);
         this._view.DefineControls();
+    }
+
+    public TModel getModel() {
+        return this._model;
+    }
+
+    public void setModel(TModel dataModel) {
+        this._model = dataModel;
+    }
+
+    public TViewData getViewData() {
+        return this._viewData;
+    }
+
+    public void setViewData(TViewData viewModel) {
+        this._viewData = viewModel;
     }
 }

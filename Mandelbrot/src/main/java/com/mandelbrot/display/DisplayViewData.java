@@ -2,7 +2,7 @@ package com.mandelbrot.display;
 
 import javafx.scene.shape.Rectangle;
 
-public class DisplayViewDataModel {
+public class DisplayViewData {
     private double _imageWidth = 600;
     private double _imageHeight = 600;
 
