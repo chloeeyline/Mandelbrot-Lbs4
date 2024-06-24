@@ -1,6 +1,8 @@
 package com.mandelbrot.display;
 
 import com.mandelbrot.base.BaseView;
+import com.mandelbrot.utils.LimitsDialog;
+import com.mandelbrot.utils.RectangleCords;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
@@ -96,7 +98,18 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         MenuItem reset = new MenuItem("Reset");
 
         setLimits.setOnAction(evt -> {
-
+            RectangleCords initialCords = new RectangleCords(
+                    getController().getModel().getXMin(),
+                    getController().getModel().getXMax(),
+                    getController().getModel().getYMin(),
+                    getController().getModel().getYMax()
+            );
+            LimitsDialog dialog = new LimitsDialog(initialCords);
+            RectangleCords newCords = dialog.getRectangleCords();
+            if (newCords != null) {
+                getController().getModel().setLimits(newCords.getxMin(), newCords.getxMax(), newCords.getyMin(), newCords.getyMax());
+                getController().drawMandelbrotSet();
+            }
         });
 
         reset.setOnAction(evt -> {
