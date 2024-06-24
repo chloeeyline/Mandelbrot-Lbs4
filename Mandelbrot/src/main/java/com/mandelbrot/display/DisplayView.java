@@ -7,6 +7,9 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
 
 public class DisplayView extends BaseView<DisplayController, VBox> {
     private Pane _displayPane;
@@ -78,6 +81,7 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         Menu menu = new Menu("Iterations");
         ToggleGroup toggleGroupIterations = new ToggleGroup();
         int value = 50;
+
         while (value <= 15000) {
             RadioMenuItem radioButton = new RadioMenuItem(Integer.toString(value));
             if (value == 50) radioButton.setSelected(true);
@@ -91,9 +95,6 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
             menu.getItems().add(radioButton);
             value *= 2;
         }
-        RadioMenuItem customIteration = new RadioMenuItem("Custom");
-        customIteration.setToggleGroup(toggleGroupIterations);
-        menu.getItems().add(customIteration);
         return menu;
     }
 
@@ -120,13 +121,33 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         ColorPicker backgroundColorPicker = new ColorPicker();
         CustomMenuItem backgroundColor = new CustomMenuItem(backgroundColorPicker);
         backgroundColor.setHideOnClick(false);
-        menu.getItems().add(backgroundColor);
-
         backgroundColorPicker.setOnAction(evt -> {
             getController().getModel().setBackgroundColor(backgroundColorPicker.getValue());
             getController().drawMandelbrotSet();
         });
 
+        Menu colorPaletteMenu = new Menu("Farbpalette");
+        ToggleGroup toggleGroupColorPalette = new ToggleGroup();
+        CreateColorPaletteOption(colorPaletteMenu, toggleGroupColorPalette, true, 0, "Klassisches HSB");
+        CreateColorPaletteOption(colorPaletteMenu, toggleGroupColorPalette, false, 1, "Blau-Töne");
+        CreateColorPaletteOption(colorPaletteMenu, toggleGroupColorPalette, false, 2, "Grün-Töne");
+        CreateColorPaletteOption(colorPaletteMenu, toggleGroupColorPalette, false, 3, "Feuer-Töne");
+        CreateColorPaletteOption(colorPaletteMenu, toggleGroupColorPalette, false, 4, "Lila-Töne");
+
+        menu.getItems().addAll(backgroundColor, colorPaletteMenu);
         return menu;
+    }
+
+    private void CreateColorPaletteOption(Menu menu, ToggleGroup toggle, boolean selected, int value, String text) {
+        RadioMenuItem rmi = new RadioMenuItem(text);
+        menu.getItems().add(rmi);
+        rmi.setToggleGroup(toggle);
+        rmi.setSelected(selected);
+        rmi.setUserData(value);
+        rmi.setOnAction(evt -> {
+            if (rmi.isSelected())
+                getController().getModel().setColorPalette((int) rmi.getUserData());
+            getController().drawMandelbrotSet();
+        });
     }
 }

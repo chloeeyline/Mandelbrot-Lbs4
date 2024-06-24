@@ -37,8 +37,8 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
                 double zy = 0;
                 double cX = getModel().getXMin() + (x / getViewData().getImageWidth()) * (getModel().getXMax() - getModel().getXMin());
                 double cY = getModel().getYMin() + (y / getViewData().getImageHeight()) * (getModel().getYMax() - getModel().getYMin());
-                int iter = computeIterations(zx, zy, cX, cY);
-                pw.setColor(x, y, getColor(iter));
+                int iter = getModel().computeIterations(zx, zy, cX, cY);
+                pw.setColor(x, y, getModel().getColor(iter));
             }
         }
 
@@ -95,25 +95,6 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
                 getView().getDisplayPane().getChildren().add(getViewData().getDragZoomRect());
             }
         }
-    }
-
-    public int computeIterations(double zx, double zy, double cX, double cY) {
-        int iteration = getModel().getMaxIteration();
-        while (zx * zx + zy * zy < 4 && iteration > 0) {
-            double tmp = zx * zx - zy * zy + cX;
-            zy = 2.0 * zx * zy + cY;
-            zx = tmp;
-            iteration--;
-        }
-        return iteration;
-    }
-
-    public Color getColor(int iter) {
-        if (iter == 0) {
-            return getModel().getBackgroundColor();
-        }
-        double hue = 360.0 * iter / getModel().getMaxIteration();
-        return Color.hsb(hue, 1.0, iter / (iter + 8.0));
     }
 
     public void doDrag(double endX, double endY) {
