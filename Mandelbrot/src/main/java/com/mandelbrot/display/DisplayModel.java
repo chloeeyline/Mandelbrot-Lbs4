@@ -66,7 +66,29 @@ public class DisplayModel {
         this._colorPalette = colorPalette;
     }
 
-    public void setModelState(String state) {
+    public void setLimits(double xMin, double xMax, double yMin, double yMax) {
+        this._xMin = xMin;
+        this._xMax = xMax;
+        this._yMin = yMin;
+        this._yMax = yMax;
+    }
+
+    public void resetLimits() {
+        this._xMin = -2.5;
+        this._xMax = 1.5;
+        this._yMin = -2;
+        this._yMax = 2;
+    }
+
+    public String saveModelState() {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.ENGLISH);
+        symbols.setDecimalSeparator('.');
+        DecimalFormat df = new DecimalFormat("#.####################", symbols);
+        String text = "xMin=%s; xMax=%s; yMin=%s; yMax=%s; maxIteration=%d; backgroundColor=%s";
+        return String.format(text, df.format(_xMin), df.format(_xMax), df.format(_yMin), df.format(_yMax), getMaxIteration(), getBackgroundColor().toString());
+    }
+
+    public void readModelState(String state) {
         String[] parts = state.split("; ");
         double xMin = 0;
         double xMax = 0;
@@ -98,32 +120,10 @@ public class DisplayModel {
         setLimits(xMin, xMax, yMin, yMax);
     }
 
-    public void setLimits(double xMin, double xMax, double yMin, double yMax) {
-        this._xMin = xMin;
-        this._xMax = xMax;
-        this._yMin = yMin;
-        this._yMax = yMax;
-    }
-
-    public void resetLimits() {
-        this._xMin = -2.5;
-        this._xMax = 1.5;
-        this._yMin = -2;
-        this._yMax = 2;
-    }
-
-    public String getModelState() {
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.ENGLISH);
-        symbols.setDecimalSeparator('.');
-        DecimalFormat df = new DecimalFormat("#.####################", symbols);
-        String text = "xMin=%s; xMax=%s; yMin=%s; yMax=%s; maxIteration=%d; backgroundColor=%s";
-        return String.format(text, df.format(_xMin), df.format(_xMax), df.format(_yMin), df.format(_yMax), getMaxIteration(), getBackgroundColor().toString());
-    }
-
     public Color getColor(int iter) {
         if (iter == 0) return _backgroundColor;
 
-        double hue = 0;
+        double hue;
         if (_colorPalette == 1) hue = 240.0 + (120.0 * iter / _maxIteration); // Bereich von Blau bis Cyan
         else if (_colorPalette == 2) hue = 120.0 * iter / _maxIteration; // Bereich von Grün bis Gelb
         else if (_colorPalette == 3) hue = (iter % 256); // Bereiche von Rot, Orange, Gelb und zurück

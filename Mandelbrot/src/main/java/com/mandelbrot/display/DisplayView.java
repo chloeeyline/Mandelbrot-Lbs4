@@ -4,12 +4,8 @@ import com.mandelbrot.base.BaseView;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
-import javafx.util.Pair;
-
-import java.util.ArrayList;
 
 public class DisplayView extends BaseView<DisplayController, VBox> {
     private Pane _displayPane;
@@ -66,12 +62,8 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         MenuItem saveFile = new MenuItem("Save Image");
         MenuItem help = new MenuItem("Help");
 
-        openFile.setOnAction(evt -> {
-            getController().loadImageWithMetadata();
-        });
-        saveFile.setOnAction(evt -> {
-            getController().saveImageWithMetadata();
-        });
+        openFile.setOnAction(evt -> getController().loadImageWithMetadata());
+        saveFile.setOnAction(evt -> getController().saveImageWithMetadata());
 
         menu.getItems().addAll(openFile, saveFile, help);
         return menu;

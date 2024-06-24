@@ -218,7 +218,7 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
                 IIOMetadataNode entry = new IIOMetadataNode("tEXtEntry");
 
                 entry.setAttribute("keyword", "ModelState");
-                entry.setAttribute("value", getModel().getModelState());
+                entry.setAttribute("value", getModel().saveModelState());
 
                 text.appendChild(entry);
                 root.appendChild(text);
@@ -274,7 +274,7 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
                                 for (int i = 0; i < textNode.getLength(); i++) {
                                     IIOMetadataNode node = (IIOMetadataNode) textNode.item(i);
                                     if (node.getAttribute("keyword").equals("ModelState")) {
-                                        getModel().setModelState(node.getAttribute("value"));
+                                        getModel().readModelState(node.getAttribute("value"));
                                         drawMandelbrotSet();
                                         break;
                                     }
