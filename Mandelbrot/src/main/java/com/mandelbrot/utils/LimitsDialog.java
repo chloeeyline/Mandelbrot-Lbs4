@@ -9,9 +9,17 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Dialog for setting the limits of the Mandelbrot set view.
+ */
 public class LimitsDialog {
     private RectangleCords rectangleCords;
 
+    /**
+     * Constructor to initialize the dialog with initial coordinates.
+     *
+     * @param initialCords The initial coordinates for the dialog.
+     */
     public LimitsDialog(RectangleCords initialCords) {
         Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
@@ -57,6 +65,11 @@ public class LimitsDialog {
         dialog.showAndWait();
     }
 
+    /**
+     * Gets the rectangle coordinates set in the dialog.
+     *
+     * @return The rectangle coordinates.
+     */
     public RectangleCords getRectangleCords() {
         return rectangleCords;
     }

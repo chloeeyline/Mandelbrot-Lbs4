@@ -6,8 +6,11 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
+/**
+ * The model class for the Mandelbrot set display.
+ */
 public class DisplayModel {
-    // Instance variables
+    // Instance variables for the limits and settings of the Mandelbrot set
     private double _xMin;
     private double _xMax;
     private double _yMin;
@@ -16,7 +19,9 @@ public class DisplayModel {
     private Color _backgroundColor = Color.BLACK;
     private int _colorPalette;
 
-    // Constructor initializing with default values
+    /**
+     * Constructor initializing with default values.
+     */
     public DisplayModel() {
         this._xMin = -2.5;
         this._xMax = 1.5;
@@ -26,46 +31,104 @@ public class DisplayModel {
         this._colorPalette = 1;
     }
 
+    /**
+     * Gets the minimum X value.
+     *
+     * @return The minimum X value.
+     */
     public double getXMin() {
         return this._xMin;
     }
 
+    /**
+     * Gets the maximum X value.
+     *
+     * @return The maximum X value.
+     */
     public double getXMax() {
         return this._xMax;
     }
 
+    /**
+     * Gets the minimum Y value.
+     *
+     * @return The minimum Y value.
+     */
     public double getYMin() {
         return this._yMin;
     }
 
+    /**
+     * Gets the maximum Y value.
+     *
+     * @return The maximum Y value.
+     */
     public double getYMax() {
         return this._yMax;
     }
 
+    /**
+     * Gets the maximum number of iterations for the Mandelbrot set computation.
+     *
+     * @return The maximum number of iterations.
+     */
     public int getMaxIteration() {
         return this._maxIteration;
     }
 
+    /**
+     * Sets the maximum number of iterations for the Mandelbrot set computation.
+     *
+     * @param maxIteration The maximum number of iterations.
+     */
     public void setMaxIteration(int maxIteration) {
         this._maxIteration = maxIteration;
     }
 
+    /**
+     * Gets the background color.
+     *
+     * @return The background color.
+     */
     public Color getBackgroundColor() {
         return _backgroundColor;
     }
 
+    /**
+     * Sets the background color.
+     *
+     * @param backgroundColor The background color to set.
+     */
     public void setBackgroundColor(Color backgroundColor) {
         _backgroundColor = backgroundColor;
     }
 
+    /**
+     * Gets the color palette setting.
+     *
+     * @return The color palette setting.
+     */
     public int getColorPalette() {
         return _colorPalette;
     }
 
+    /**
+     * Sets the color palette.
+     *
+     * @param colorPalette The color palette to set.
+     */
     public void setColorPalette(int colorPalette) {
         this._colorPalette = colorPalette;
     }
 
+    /**
+     * Sets the limits for the Mandelbrot set.
+     *
+     * @param xMin The minimum X value.
+     * @param xMax The maximum X value.
+     * @param yMin The minimum Y value.
+     * @param yMax The maximum Y value.
+     */
     public void setLimits(double xMin, double xMax, double yMin, double yMax) {
         this._xMin = xMin;
         this._xMax = xMax;
@@ -73,6 +136,9 @@ public class DisplayModel {
         this._yMax = yMax;
     }
 
+    /**
+     * Resets the limits to the default values.
+     */
     public void resetLimits() {
         this._xMin = -2.5;
         this._xMax = 1.5;
@@ -80,6 +146,11 @@ public class DisplayModel {
         this._yMax = 2;
     }
 
+    /**
+     * Saves the current state of the model as a string.
+     *
+     * @return The string representation of the model state.
+     */
     public String saveModelState() {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.ENGLISH);
         symbols.setDecimalSeparator('.');
@@ -88,6 +159,11 @@ public class DisplayModel {
         return String.format(text, df.format(_xMin), df.format(_xMax), df.format(_yMin), df.format(_yMax), getMaxIteration(), getBackgroundColor().toString());
     }
 
+    /**
+     * Reads the model state from a string and updates the model.
+     *
+     * @param state The string representation of the model state.
+     */
     public void readModelState(String state) {
         String[] parts = state.split("; ");
         double xMin = 0;
@@ -120,6 +196,12 @@ public class DisplayModel {
         setLimits(xMin, xMax, yMin, yMax);
     }
 
+    /**
+     * Computes the color for a given iteration.
+     *
+     * @param iter The iteration count.
+     * @return The color corresponding to the iteration.
+     */
     public Color getColor(int iter) {
         if (iter == 0) return _backgroundColor;
 
@@ -133,6 +215,15 @@ public class DisplayModel {
         return Color.hsb(hue, 1.0, iter / (iter + 8.0));
     }
 
+    /**
+     * Computes the number of iterations for a given point in the Mandelbrot set.
+     *
+     * @param zx The real part of the initial complex number.
+     * @param zy The imaginary part of the initial complex number.
+     * @param cX The real part of the constant complex number.
+     * @param cY The imaginary part of the constant complex number.
+     * @return The number of iterations.
+     */
     public int computeIterations(double zx, double zy, double cX, double cY) {
         int iteration = _maxIteration;
         while (zx * zx + zy * zy < 4 && iteration > 0) {

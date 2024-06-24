@@ -7,6 +7,7 @@ import javafx.scene.Node;
  * It defines the basic methods for controlling the view.
  *
  * @param <TController> The type of the controller, which extends BaseController.
+ * @param <TElement>    The type of the main node element, which extends Node.
  */
 public abstract class BaseView<TController extends BaseController, TElement extends Node> {
     protected TElement _mainNode;
@@ -22,10 +23,20 @@ public abstract class BaseView<TController extends BaseController, TElement exte
      */
     public abstract void DefineControls();
 
+    /**
+     * Gets the main node of the view.
+     *
+     * @return The main node element.
+     */
     public TElement getMainNode() {
         return this._mainNode;
     }
 
+    /**
+     * Gets the controller associated with this view.
+     *
+     * @return The controller instance.
+     */
     public TController getController() {
         return this._controller;
     }
@@ -39,4 +50,3 @@ public abstract class BaseView<TController extends BaseController, TElement exte
         this._controller = controller;
     }
 }
-

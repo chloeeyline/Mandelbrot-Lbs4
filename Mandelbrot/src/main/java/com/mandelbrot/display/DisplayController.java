@@ -23,15 +23,30 @@ import java.io.IOException;
 import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 
+/**
+ * DisplayController is responsible for handling user interactions and updating the view and model accordingly.
+ */
 public class DisplayController extends BaseController<DisplayView, DisplayModel, DisplayViewData> {
+
+    /**
+     * Constructor to initialize the controller with the given view, model, and view data.
+     *
+     * @param view     The view instance.
+     * @param model    The model instance.
+     * @param viewData The view data instance.
+     */
     public DisplayController(DisplayView view, DisplayModel model, DisplayViewData viewData) {
         super(view, model, viewData);
         drawMandelbrotSet();
     }
 
+    /**
+     * Draws the Mandelbrot set on the canvas.
+     */
     public void drawMandelbrotSet() {
         PixelWriter pw = getView().getImage().getPixelWriter();
 
+        // Iterate over each pixel and compute its color based on the Mandelbrot set
         for (int x = 0; x < getViewData().getImageWidth(); x++) {
             for (int y = 0; y < getViewData().getImageHeight(); y++) {
                 double zx = 0;
@@ -47,6 +62,11 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
         javafx.application.Platform.runLater(() -> getView().getCanvas().getGraphicsContext2D().drawImage(getView().getImage(), 0, 0));
     }
 
+    /**
+     * Handles mouse release events to finalize dragging or zooming.
+     *
+     * @param evt The mouse event.
+     */
     public void mouseReleased(MouseEvent evt) {
         if (getViewData().isDragging()) {
             getView().getDisplayPane().getChildren().remove(getViewData().getDragZoomRect());
@@ -55,6 +75,11 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
         }
     }
 
+    /**
+     * Handles mouse dragging events to update the display based on user interaction.
+     *
+     * @param evt The mouse event.
+     */
     public void mouseDragged(MouseEvent evt) {
         if (!getViewData().isDragging()) return;
         double x = evt.getX();
@@ -69,7 +94,7 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
             getViewData().setDragOffsetX(offsetX);
             getViewData().setDragOffsetY(offsetY);
 
-            //clear the Canvas
+            // Clear the Canvas
             getView().getCanvas().getGraphicsContext2D().setFill(Color.LIGHTGRAY);
             getView().getCanvas().getGraphicsContext2D().fillRect(0, 0, getViewData().getImageWidth(), getViewData().getImageHeight());
 
@@ -98,6 +123,12 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
         }
     }
 
+    /**
+     * Executes the drag action to update the view limits based on user interaction.
+     *
+     * @param endX The end X coordinate.
+     * @param endY The end Y coordinate.
+     */
     public void doDrag(double endX, double endY) {
         double xShift = endX - getViewData().getStartX();
         double yShift = endY - getViewData().getStartY();
@@ -113,6 +144,9 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
         getModel().setLimits(newXMin, newXMax, newYMin, newYMax);
     }
 
+    /**
+     * Executes the zoom-in action based on the selected rectangle.
+     */
     public void doZoomInOnRect() {
         double newXMin = getModel().getXMin() + (getViewData().getDragZoomRect().getX() / getViewData().getImageWidth()) * (getModel().getXMax() - getModel().getXMin());
         double newXMax = getModel().getXMin() + ((getViewData().getDragZoomRect().getX() + getViewData().getDragZoomRect().getWidth()) / getViewData().getImageWidth()) * (getModel().getXMax() - getModel().getXMin());
@@ -121,6 +155,9 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
         getModel().setLimits(newXMin, newXMax, newYMin, newYMax);
     }
 
+    /**
+     * Executes the zoom-out action based on the selected rectangle.
+     */
     public void doZoomOutFromRect() {
         if (getViewData().getDragZoomRect() == null) return;
         double rectX = getViewData().getDragZoomRect().getX();
@@ -143,6 +180,11 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
         getModel().setLimits(newXMin, newXMax, newYMin, newYMax);
     }
 
+    /**
+     * Handles mouse press events to initiate dragging or zooming.
+     *
+     * @param evt The mouse event.
+     */
     public void mousePressed(MouseEvent evt) {
         if (!getViewData().isDragging()) {
             getViewData().setStartX(evt.getX());
@@ -162,9 +204,14 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
             getViewData().setDragging(true);
             getViewData().setMovedMouse(false);
         }
-
     }
 
+    /**
+     * Handles mouse release events to finalize dragging or zooming.
+     *
+     * @param x The x-coordinate where the mouse was released.
+     * @param y The y-coordinate where the mouse was released.
+     */
     public void mouseReleased(double x, double y) {
         if (!getViewData().isDragging()) return;
 
@@ -187,6 +234,9 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
         }
     }
 
+    /**
+     * Saves the current image along with its metadata.
+     */
     public void saveImageWithMetadata() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png"));
@@ -239,6 +289,9 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
         }
     }
 
+    /**
+     * Loads an image along with its metadata.
+     */
     public void loadImageWithMetadata() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png"));

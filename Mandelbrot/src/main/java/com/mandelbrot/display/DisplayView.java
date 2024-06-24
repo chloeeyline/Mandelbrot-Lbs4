@@ -9,19 +9,37 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
 
+/**
+ * The view class for displaying the Mandelbrot set.
+ */
 public class DisplayView extends BaseView<DisplayController, VBox> {
     private Pane _displayPane;
     private Canvas _canvas;
     private WritableImage _image;
 
+    /**
+     * Gets the canvas where the Mandelbrot set is drawn.
+     *
+     * @return The canvas.
+     */
     public Canvas getCanvas() {
         return _canvas;
     }
 
+    /**
+     * Gets the image of the Mandelbrot set.
+     *
+     * @return The image.
+     */
     public WritableImage getImage() {
         return _image;
     }
 
+    /**
+     * Gets the display pane containing the canvas.
+     *
+     * @return The display pane.
+     */
     public Pane getDisplayPane() {
         return _displayPane;
     }
@@ -33,6 +51,9 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         CreateDisplayControls();
     }
 
+    /**
+     * Creates the controls for displaying the Mandelbrot set.
+     */
     private void CreateDisplayControls() {
         _image = new WritableImage(600, 600);
         _canvas = new Canvas(600, 600);
@@ -40,11 +61,15 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         _displayPane.getChildren().add(_canvas);
         _mainNode.getChildren().add(_displayPane);
 
+        // Set up mouse event handlers
         _canvas.setOnMousePressed(evt -> _controller.mousePressed(evt));
         _canvas.setOnMouseReleased(evt -> _controller.mouseReleased(evt));
         _canvas.setOnMouseDragged(evt -> _controller.mouseDragged(evt));
     }
 
+    /**
+     * Creates the menu controls.
+     */
     private void CreateMenuControls() {
         MenuBar menuBar = new MenuBar();
 
@@ -58,6 +83,11 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         _mainNode.getChildren().add(menuBar);
     }
 
+    /**
+     * Creates the File menu.
+     *
+     * @return The File menu.
+     */
     private Menu CreateFileMenu() {
         Menu menu = new Menu("File");
         MenuItem openFile = new MenuItem("Open");
@@ -71,11 +101,17 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         return menu;
     }
 
+    /**
+     * Creates the Iterations menu.
+     *
+     * @return The Iterations menu.
+     */
     private Menu CreateIterationMenu() {
         Menu menu = new Menu("Iterations");
         ToggleGroup toggleGroupIterations = new ToggleGroup();
         int value = 50;
 
+        // Create radio buttons for different iteration counts
         while (value <= 15000) {
             RadioMenuItem radioButton = new RadioMenuItem(Integer.toString(value));
             if (value == 50) radioButton.setSelected(true);
@@ -92,6 +128,11 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         return menu;
     }
 
+    /**
+     * Creates the Limits menu.
+     *
+     * @return The Limits menu.
+     */
     private Menu CreateLimitsMenu() {
         Menu menu = new Menu("Limits");
         MenuItem setLimits = new MenuItem("Limits einstellen");
@@ -121,6 +162,11 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         return menu;
     }
 
+    /**
+     * Creates the Colors menu.
+     *
+     * @return The Colors menu.
+     */
     private Menu CreateColorMenu() {
         Menu menu = new Menu("Colors");
         ColorPicker backgroundColorPicker = new ColorPicker();
@@ -143,6 +189,15 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         return menu;
     }
 
+    /**
+     * Creates an option for the color palette menu.
+     *
+     * @param menu     The menu to add the option to.
+     * @param toggle   The toggle group for the radio buttons.
+     * @param selected Whether the option should be selected by default.
+     * @param value    The value associated with the option.
+     * @param text     The text for the option.
+     */
     private void CreateColorPaletteOption(Menu menu, ToggleGroup toggle, boolean selected, int value, String text) {
         RadioMenuItem rmi = new RadioMenuItem(text);
         menu.getItems().add(rmi);
