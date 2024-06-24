@@ -6,6 +6,22 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import javax.imageio.ImageIO;
+import javax.imageio.metadata.IIOMetadataNode;
+import javax.imageio.stream.ImageInputStream;
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.ImageReader;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javafx.scene.image.WritableImage;
+import javafx.stage.FileChooser;
+
 public class DisplayController extends BaseController<DisplayView, DisplayModel, DisplayViewData> {
     public DisplayController(DisplayView view, DisplayModel model, DisplayViewData viewData) {
         super(view, model, viewData);
@@ -186,6 +202,105 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
             getViewData().setDragZoomRect(null);
             getViewData().setDragOffsetX(0);
             getViewData().setDragOffsetX(1);
+        }
+    }
+
+    public void saveImageWithMetadata() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png"));
+        File file = fileChooser.showSaveDialog(getView().getCanvas().getScene().getWindow());
+        if (file != null) {
+            try {
+                WritableImage fxImage = getView().getImage();
+                BufferedImage bufferedImage = new BufferedImage((int) fxImage.getWidth(), (int) fxImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+                for (int x = 0; x < fxImage.getWidth(); x++) {
+                    for (int y = 0; y < fxImage.getHeight(); y++) {
+                        javafx.scene.paint.Color fxColor = fxImage.getPixelReader().getColor(x, y);
+                        int argb = (int) (fxColor.getOpacity() * 255) << 24 |
+                                (int) (fxColor.getRed() * 255) << 16 |
+                                (int) (fxColor.getGreen() * 255) << 8 |
+                                (int) (fxColor.getBlue() * 255);
+                        bufferedImage.setRGB(x, y, argb);
+                    }
+                }
+
+                // Adding metadata
+                ImageWriter writer = ImageIO.getImageWritersByFormatName("png").next();
+                ImageWriteParam writeParam = writer.getDefaultWriteParam();
+                ImageTypeSpecifier typeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_ARGB);
+                IIOMetadata metadata = writer.getDefaultImageMetadata(typeSpecifier, writeParam);
+
+                IIOMetadataNode root = new IIOMetadataNode("javax_imageio_png_1.0");
+                IIOMetadataNode text = new IIOMetadataNode("tEXt");
+                IIOMetadataNode entry = new IIOMetadataNode("tEXtEntry");
+
+                entry.setAttribute("keyword", "ModelState");
+                entry.setAttribute("value", getModel().getModelState());
+
+                text.appendChild(entry);
+                root.appendChild(text);
+                metadata.mergeTree("javax_imageio_png_1.0", root);
+
+                try (ImageOutputStream stream = ImageIO.createImageOutputStream(file)) {
+                    writer.setOutput(stream);
+                    writer.write(metadata, new javax.imageio.IIOImage(bufferedImage, null, metadata), writeParam);
+                } finally {
+                    writer.dispose();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void loadImageWithMetadata() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png"));
+        File file = fileChooser.showOpenDialog(getView().getCanvas().getScene().getWindow());
+        if (file != null) {
+            try {
+                ImageReader reader = ImageIO.getImageReadersByFormatName("png").next();
+                try (ImageInputStream stream = ImageIO.createImageInputStream(file)) {
+                    reader.setInput(stream);
+                    BufferedImage bufferedImage = reader.read(0);
+
+                    WritableImage fxImage = new WritableImage(bufferedImage.getWidth(), bufferedImage.getHeight());
+                    for (int x = 0; x < bufferedImage.getWidth(); x++) {
+                        for (int y = 0; y < bufferedImage.getHeight(); y++) {
+                            int argb = bufferedImage.getRGB(x, y);
+                            int alpha = (argb >> 24) & 0xff;
+                            int red = (argb >> 16) & 0xff;
+                            int green = (argb >> 8) & 0xff;
+                            int blue = argb & 0xff;
+                            javafx.scene.paint.Color fxColor = javafx.scene.paint.Color.rgb(red, green, blue, alpha / 255.0);
+                            fxImage.getPixelWriter().setColor(x, y, fxColor);
+                        }
+                    }
+                    getView().getCanvas().getGraphicsContext2D().drawImage(fxImage, 0, 0);
+
+                    IIOMetadata metadata = reader.getImageMetadata(0);
+                    String[] metadataNames = metadata.getMetadataFormatNames();
+                    for (String name : metadataNames) {
+                        if (name.equals("javax_imageio_png_1.0")) {
+                            IIOMetadataNode root = (IIOMetadataNode) metadata.getAsTree(name);
+                            IIOMetadataNode textNode = (IIOMetadataNode) root.getElementsByTagName("tEXt").item(0);
+                            if (textNode != null) {
+                                for (int i = 0; i < textNode.getLength(); i++) {
+                                    IIOMetadataNode node = (IIOMetadataNode) textNode.item(i);
+                                    if (node.getAttribute("keyword").equals("ModelState")) {
+                                        getModel().setModelState(node.getAttribute("value"));
+                                        drawMandelbrotSet();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

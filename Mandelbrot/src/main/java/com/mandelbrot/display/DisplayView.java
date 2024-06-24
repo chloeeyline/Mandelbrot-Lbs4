@@ -4,6 +4,7 @@ import com.mandelbrot.base.BaseView;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
 
@@ -49,9 +50,9 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         Menu fileMenu = CreateFileMenu();
         Menu iterationMenu = CreateIterationMenu();
         Menu colorMenu = CreateColorMenu();
-        Menu helpMenu = new Menu("Help");
+        Menu limitsMenu = CreateLimitsMenu();
 
-        menuBar.getMenus().addAll(fileMenu, iterationMenu, colorMenu, helpMenu);
+        menuBar.getMenus().addAll(fileMenu, iterationMenu, colorMenu, limitsMenu);
 
         _mainNode.getChildren().add(menuBar);
     }
@@ -60,28 +61,57 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         Menu menu = new Menu("File");
         MenuItem openFile = new MenuItem("Open");
         MenuItem saveFile = new MenuItem("Save Image");
-        menu.getItems().addAll(openFile, saveFile);
+        MenuItem help = new MenuItem("Help");
+
+        openFile.setOnAction(evt -> {
+            getController().loadImageWithMetadata();
+        });
+        saveFile.setOnAction(evt -> {
+            getController().saveImageWithMetadata();
+        });
+
+        menu.getItems().addAll(openFile, saveFile, help);
         return menu;
     }
 
     private Menu CreateIterationMenu() {
         Menu menu = new Menu("Iterations");
         ToggleGroup toggleGroupIterations = new ToggleGroup();
-
-        for (Integer element : new int[]{50, 100, 250, 1000, 2000, 10000, 50000, 500000}) {
-            RadioMenuItem radioButton = new RadioMenuItem(element.toString());
-            radioButton.setUserData(element);
+        int value = 50;
+        while (value <= 15000) {
+            RadioMenuItem radioButton = new RadioMenuItem(Integer.toString(value));
+            if (value == 50) radioButton.setSelected(true);
+            radioButton.setUserData(value);
             radioButton.setToggleGroup(toggleGroupIterations);
             radioButton.setOnAction(evt -> {
-                if (radioButton.isSelected()) getController().getModel().setMaxIteration(element);
+                if (radioButton.isSelected())
+                    getController().getModel().setMaxIteration((int) radioButton.getUserData());
                 getController().drawMandelbrotSet();
             });
             menu.getItems().add(radioButton);
+            value *= 2;
         }
-
         RadioMenuItem customIteration = new RadioMenuItem("Custom");
         customIteration.setToggleGroup(toggleGroupIterations);
         menu.getItems().add(customIteration);
+        return menu;
+    }
+
+    private Menu CreateLimitsMenu() {
+        Menu menu = new Menu("Limits");
+        MenuItem setLimits = new MenuItem("Limits einstellen");
+        MenuItem reset = new MenuItem("Reset");
+
+        setLimits.setOnAction(evt -> {
+
+        });
+
+        reset.setOnAction(evt -> {
+            getController().getModel().resetLimits();
+            getController().drawMandelbrotSet();
+        });
+
+        menu.getItems().addAll(setLimits, reset);
         return menu;
     }
 
