@@ -1,6 +1,7 @@
 package com.mandelbrot.display;
 
 import com.mandelbrot.base.BaseController;
+import javafx.scene.control.Alert;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -230,7 +231,10 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
                     writer.dispose();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Fehler beim speichern");
+                alert.setHeaderText("Das Bild konnte aufgrund eines Programmfehlers nicht gespeichert werden, versuchen sie es erneut");
+                alert.showAndWait();
             }
         }
     }
@@ -280,7 +284,10 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Fehler beim laden");
+                alert.setHeaderText("Das Bild konnte aufgrund eines Programmfehlers nicht geladen werden, versuchen sie es erneut");
+                alert.showAndWait();
             }
         }
     }
