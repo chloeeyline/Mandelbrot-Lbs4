@@ -155,8 +155,8 @@ public class DisplayModel {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.ENGLISH);
         symbols.setDecimalSeparator('.');
         DecimalFormat df = new DecimalFormat("#.####################", symbols);
-        String text = "xMin=%s; xMax=%s; yMin=%s; yMax=%s; maxIteration=%d; backgroundColor=%s";
-        return String.format(text, df.format(_xMin), df.format(_xMax), df.format(_yMin), df.format(_yMax), getMaxIteration(), getBackgroundColor().toString());
+        String text = "xMin=%s; xMax=%s; yMin=%s; yMax=%s; maxIteration=%d; backgroundColor=%s; colorPalette=%d";
+        return String.format(text, df.format(_xMin), df.format(_xMax), df.format(_yMin), df.format(_yMax), getMaxIteration(), getBackgroundColor().toString(), getColorPalette());
     }
 
     /**
@@ -190,6 +190,9 @@ public class DisplayModel {
                     break;
                 case "backgroundColor":
                     setBackgroundColor(Color.web(keyValue[1]));
+                    break;
+                case "colorPalette":
+                    setColorPalette(Integer.parseInt(keyValue[1]));
                     break;
             }
         }

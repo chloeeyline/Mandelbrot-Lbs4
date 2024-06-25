@@ -31,6 +31,7 @@ public class StartupApplication extends Application {
         Scene scene = new Scene(displayView.getMainNode());
         primaryStage.setTitle("Mandelbrot Set");
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 }

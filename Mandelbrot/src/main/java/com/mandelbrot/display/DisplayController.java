@@ -2,6 +2,7 @@ package com.mandelbrot.display;
 
 import com.mandelbrot.base.BaseController;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Toggle;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -328,6 +329,14 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
                                     IIOMetadataNode node = (IIOMetadataNode) textNode.item(i);
                                     if (node.getAttribute("keyword").equals("ModelState")) {
                                         getModel().readModelState(node.getAttribute("value"));
+                                        for (Toggle t : getView().getIterationGroup().getToggles()) {
+                                            if (((int) t.getUserData()) == getModel().getMaxIteration())
+                                                t.setSelected(true);
+                                        }
+                                        for (Toggle t : getView().getColorPaletteGroup().getToggles()) {
+                                            if (((int) t.getUserData()) == getModel().getColorPalette())
+                                                t.setSelected(true);
+                                        }
                                         drawMandelbrotSet();
                                         break;
                                     }

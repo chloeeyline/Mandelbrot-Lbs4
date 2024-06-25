@@ -16,6 +16,8 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
     private Pane _displayPane;
     private Canvas _canvas;
     private WritableImage _image;
+    private ToggleGroup _iterationGroup;
+    private ToggleGroup _colorPaletteGroup;
 
     /**
      * Gets the canvas where the Mandelbrot set is drawn.
@@ -42,6 +44,24 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
      */
     public Pane getDisplayPane() {
         return _displayPane;
+    }
+
+    /**
+     * Gets the Group to that contains the iteration options
+     *
+     * @return The Group of the iteration.
+     */
+    public ToggleGroup getIterationGroup() {
+        return _iterationGroup;
+    }
+
+    /**
+     * Gets the Group to that contains the colorPalette options
+     *
+     * @return The Group of the colorPalette.
+     */
+    public ToggleGroup getColorPaletteGroup() {
+        return _colorPaletteGroup;
     }
 
     @Override
@@ -108,15 +128,15 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
      */
     private Menu CreateIterationMenu() {
         Menu menu = new Menu("Iterations");
-        ToggleGroup toggleGroupIterations = new ToggleGroup();
+        _iterationGroup = new ToggleGroup();
         int value = 50;
 
         // Create radio buttons for different iteration counts
-        while (value <= 15000) {
+        while (value <= 5000) {
             RadioMenuItem radioButton = new RadioMenuItem(Integer.toString(value));
             if (value == 50) radioButton.setSelected(true);
             radioButton.setUserData(value);
-            radioButton.setToggleGroup(toggleGroupIterations);
+            radioButton.setToggleGroup(_iterationGroup);
             radioButton.setOnAction(evt -> {
                 if (radioButton.isSelected())
                     getController().getModel().setMaxIteration((int) radioButton.getUserData());
@@ -178,12 +198,12 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         });
 
         Menu colorPaletteMenu = new Menu("Farbpalette");
-        ToggleGroup toggleGroupColorPalette = new ToggleGroup();
-        CreateColorPaletteOption(colorPaletteMenu, toggleGroupColorPalette, true, 0, "Klassisches HSB");
-        CreateColorPaletteOption(colorPaletteMenu, toggleGroupColorPalette, false, 1, "Blau-Töne");
-        CreateColorPaletteOption(colorPaletteMenu, toggleGroupColorPalette, false, 2, "Grün-Töne");
-        CreateColorPaletteOption(colorPaletteMenu, toggleGroupColorPalette, false, 3, "Feuer-Töne");
-        CreateColorPaletteOption(colorPaletteMenu, toggleGroupColorPalette, false, 4, "Lila-Töne");
+        _colorPaletteGroup = new ToggleGroup();
+        CreateColorPaletteOption(colorPaletteMenu, _colorPaletteGroup, true, 0, "Klassisches HSB");
+        CreateColorPaletteOption(colorPaletteMenu, _colorPaletteGroup, false, 1, "Blau-Töne");
+        CreateColorPaletteOption(colorPaletteMenu, _colorPaletteGroup, false, 2, "Grün-Töne");
+        CreateColorPaletteOption(colorPaletteMenu, _colorPaletteGroup, false, 3, "Feuer-Töne");
+        CreateColorPaletteOption(colorPaletteMenu, _colorPaletteGroup, false, 4, "Lila-Töne");
 
         menu.getItems().addAll(backgroundColor, colorPaletteMenu);
         return menu;
