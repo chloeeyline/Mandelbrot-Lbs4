@@ -137,7 +137,7 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
 
                     Farbe:
                     Hintergrundfarbe: Wählen Sie eine Hintergrundfarbe für das Bild des Mandelbrot-Sets aus.
-                    Farbpalette: Wählen Sie eine Farbpalette für die Darstellung des Mandelbrot-Sets:""";
+                    Farbpalette: Wählen Sie eine Farbpalette für die Darstellung des Mandelbrot-Sets""";
 
 
             // Create an alert dialog to display the help text
