@@ -109,13 +109,48 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
      * @return The File menu.
      */
     private Menu CreateFileMenu() {
-        Menu menu = new Menu("File");
-        MenuItem openFile = new MenuItem("Open");
-        MenuItem saveFile = new MenuItem("Save Image");
-        MenuItem help = new MenuItem("Help");
+        Menu menu = new Menu("Datei");
+        MenuItem openFile = new MenuItem("Öffnen");
+        MenuItem saveFile = new MenuItem("Speichern");
+        MenuItem help = new MenuItem("Hilfe");
 
         openFile.setOnAction(evt -> getController().loadImageWithMetadata());
         saveFile.setOnAction(evt -> getController().saveImageWithMetadata());
+        help.setOnAction(evt -> {
+            // Formatted help text
+            String helpText = """
+                    Bedienung:
+                    Ziehen: Halten Sie die linke Maustaste gedrückt und ziehen Sie die Maus, um die Ansicht zu verschieben.
+                    Vergrößern: Halten Sie die rechte Maustaste gedrückt und ziehen Sie die Maus, um einen Bereich zum Vergrößern auszuwählen.
+                    Verkleinern: Halten Sie die mittlere Maustaste gedrückt und ziehen Sie die Maus, um einen Bereich zum Verkleinern auszuwählen.
+
+                    Datei:
+                    Öffnen: Öffnen Sie ein zuvor gespeichertes Bild des Mandelbrot-Sets zusammen mit dessen Metadaten.
+                    Bild speichern: Speichern Sie das aktuelle Bild des Mandelbrot-Sets zusammen mit den Metadaten, die den aktuellen Zustand der Ansicht beschreiben.
+
+                    Iterationen:
+                    Wählen Sie die maximale Anzahl der Iterationen, die für die Berechnung des Mandelbrot-Sets verwendet werden sollen. Höhere Werte führen zu detaillierteren Bildern, können jedoch die Berechnungszeit erhöhen.
+
+                    Limits:
+                    Limits einstellen: Öffnet einen Dialog, in dem Sie die genauen Grenzen des angezeigten Bereichs des Mandelbrot-Sets manuell festlegen können.
+                    Zurücksetzen: Setzt die Ansicht auf die Standardgrenzen zurück.
+
+                    Farbe:
+                    Hintergrundfarbe: Wählen Sie eine Hintergrundfarbe für das Bild des Mandelbrot-Sets aus.
+                    Farbpalette: Wählen Sie eine Farbpalette für die Darstellung des Mandelbrot-Sets:""";
+
+
+            // Create an alert dialog to display the help text
+            Alert helpDialog = new Alert(Alert.AlertType.INFORMATION);
+            helpDialog.setTitle("Hilfe");
+            helpDialog.setHeaderText("Hilfetext zur Mandelbrot-Set-Anwendung");
+            helpDialog.setContentText(helpText);
+            helpDialog.setResizable(true);
+            helpDialog.setWidth(600);
+
+            // Show the help dialog
+            helpDialog.showAndWait();
+        });
 
         menu.getItems().addAll(openFile, saveFile, help);
         return menu;
@@ -127,7 +162,7 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
      * @return The Iterations menu.
      */
     private Menu CreateIterationMenu() {
-        Menu menu = new Menu("Iterations");
+        Menu menu = new Menu("Iteration");
         _iterationGroup = new ToggleGroup();
         int value = 50;
 
@@ -188,7 +223,7 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
      * @return The Colors menu.
      */
     private Menu CreateColorMenu() {
-        Menu menu = new Menu("Colors");
+        Menu menu = new Menu("Farbe");
         ColorPicker backgroundColorPicker = new ColorPicker();
         CustomMenuItem backgroundColor = new CustomMenuItem(backgroundColorPicker);
         backgroundColor.setHideOnClick(false);
@@ -196,6 +231,8 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
             getController().getModel().setBackgroundColor(backgroundColorPicker.getValue());
             getController().drawMandelbrotSet();
         });
+        Menu backgroundMenu = new Menu("Hintergrundfarbe");
+        backgroundMenu.getItems().add(backgroundColor);
 
         Menu colorPaletteMenu = new Menu("Farbpalette");
         _colorPaletteGroup = new ToggleGroup();
@@ -205,7 +242,7 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         CreateColorPaletteOption(colorPaletteMenu, _colorPaletteGroup, false, 3, "Feuer-Töne");
         CreateColorPaletteOption(colorPaletteMenu, _colorPaletteGroup, false, 4, "Lila-Töne");
 
-        menu.getItems().addAll(backgroundColor, colorPaletteMenu);
+        menu.getItems().addAll(backgroundMenu, colorPaletteMenu);
         return menu;
     }
 

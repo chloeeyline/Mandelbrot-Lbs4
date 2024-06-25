@@ -2,6 +2,7 @@ package com.mandelbrot.utils;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -50,12 +51,31 @@ public class LimitsDialog {
 
         Button submitButton = new Button("Speichern");
         submitButton.setOnAction(e -> {
-            double xMin = Double.parseDouble(xMinField.getText());
-            double xMax = Double.parseDouble(xMaxField.getText());
-            double yMin = Double.parseDouble(yMinField.getText());
-            double yMax = Double.parseDouble(yMaxField.getText());
-            rectangleCords = new RectangleCords(xMin, xMax, yMin, yMax);
-            dialog.close();
+            try {
+                double xMin = Double.parseDouble(xMinField.getText());
+                double xMax = Double.parseDouble(xMaxField.getText());
+                double yMin = Double.parseDouble(yMinField.getText());
+                double yMax = Double.parseDouble(yMaxField.getText());
+                rectangleCords = new RectangleCords(xMin, xMax, yMin, yMax);
+                String content = "";
+                if (xMin >= xMax) content += "Der X Min Wert muss kleiner als der max Wert sein";
+                if (yMin >= yMax) {
+                    if (!content.isEmpty()) content += "\n";
+                    content += "Der Y Min Wert muss kleiner als der max Wert sein";
+                }
+                if (content.isEmpty()) dialog.close();
+                else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Daten inkorrekt");
+                    alert.setHeaderText(content);
+                    alert.showAndWait();
+                }
+            } catch (Exception exception) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Daten inkorrekt");
+                alert.setHeaderText("Es wurden ungültige Werte eingegeben welche nicht als Zahl eingelesen werden konnte");
+                alert.showAndWait();
+            }
         });
 
         grid.add(submitButton, 1, 4);
