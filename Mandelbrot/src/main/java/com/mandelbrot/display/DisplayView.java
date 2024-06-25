@@ -18,6 +18,7 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
     private WritableImage _image;
     private ToggleGroup _iterationGroup;
     private ToggleGroup _colorPaletteGroup;
+    private ColorPicker _backgroundColorPicker;
 
     /**
      * Gets the canvas where the Mandelbrot set is drawn.
@@ -62,6 +63,15 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
      */
     public ToggleGroup getColorPaletteGroup() {
         return _colorPaletteGroup;
+    }
+
+    /**
+     * Gets the ColorPicker to choose the backgroundColor
+     *
+     * @return The ColorPicker for the backgroundColor.
+     */
+    public ColorPicker getBackgroundColorPicker() {
+        return _backgroundColorPicker;
     }
 
     @Override
@@ -224,11 +234,11 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
      */
     private Menu CreateColorMenu() {
         Menu menu = new Menu("Farbe");
-        ColorPicker backgroundColorPicker = new ColorPicker();
-        CustomMenuItem backgroundColor = new CustomMenuItem(backgroundColorPicker);
+        _backgroundColorPicker = new ColorPicker();
+        CustomMenuItem backgroundColor = new CustomMenuItem(_backgroundColorPicker);
         backgroundColor.setHideOnClick(false);
-        backgroundColorPicker.setOnAction(evt -> {
-            getController().getModel().setBackgroundColor(backgroundColorPicker.getValue());
+        _backgroundColorPicker.setOnAction(evt -> {
+            getController().getModel().setBackgroundColor(_backgroundColorPicker.getValue());
             getController().drawMandelbrotSet();
         });
         Menu backgroundMenu = new Menu("Hintergrundfarbe");

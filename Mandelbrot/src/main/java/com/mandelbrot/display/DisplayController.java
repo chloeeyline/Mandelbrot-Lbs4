@@ -337,6 +337,7 @@ public class DisplayController extends BaseController<DisplayView, DisplayModel,
                                             if (((int) t.getUserData()) == getModel().getColorPalette())
                                                 t.setSelected(true);
                                         }
+                                        getView().getBackgroundColorPicker().setValue(getModel().getBackgroundColor());
                                         drawMandelbrotSet();
                                         break;
                                     }
