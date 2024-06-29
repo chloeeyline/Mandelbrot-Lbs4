@@ -11,12 +11,40 @@ import java.util.Locale;
  */
 public class DisplayModel {
     // Instance variables for the limits and settings of the Mandelbrot set
+
+    /**
+     * The minimum X value.
+     */
     private double _xMin;
+
+    /**
+     * The maximum X value.
+     */
     private double _xMax;
+
+    /**
+     * The minimum Y value.
+     */
     private double _yMin;
+
+    /**
+     * The maximum Y value.
+     */
     private double _yMax;
+
+    /**
+     * The maximum Iteration value.
+     */
     private int _maxIteration;
+
+    /**
+     * The background color of the mandelbrot.
+     */
     private Color _backgroundColor = Color.BLACK;
+
+    /**
+     * The color palette for the mandelbrot.
+     */
     private int _colorPalette;
 
     /**

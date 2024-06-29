@@ -4,9 +4,25 @@ package com.mandelbrot.utils;
  * Class representing the coordinates of a rectangle.
  */
 public class RectangleCords {
+
+    /**
+     *minimum of the x Cords
+     */
     private double xMin;
+
+    /**
+     *maximum of the x Cords
+     */
     private double xMax;
+
+    /**
+     *minimum of the y Cords
+     */
     private double yMin;
+
+    /**
+     *maximum of the y Cords
+     */
     private double yMax;
 
     /**

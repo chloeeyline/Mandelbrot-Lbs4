@@ -13,11 +13,35 @@ import javafx.scene.layout.Pane;
  * The view class for displaying the Mandelbrot set.
  */
 public class DisplayView extends BaseView<DisplayController, VBox> {
+
+    /**
+     *Pane for Display
+     */
     private Pane _displayPane;
+
+    /**
+     *Canvas for the Display controls
+     */
     private Canvas _canvas;
+
+    /**
+     *the image of the mandelbrot set
+     */
     private WritableImage _image;
+
+    /**
+     *Toggle group for iterations
+     */
     private ToggleGroup _iterationGroup;
+
+    /**
+     *toggle group for colors
+     */
     private ToggleGroup _colorPaletteGroup;
+
+    /**
+     *Color picker for background colors
+     */
     private ColorPicker _backgroundColorPicker;
 
     /**

@@ -6,21 +6,72 @@ import javafx.scene.shape.Rectangle;
  * The view data class for the display, containing data about the current state of the view.
  */
 public class DisplayViewData {
+
+    /**
+     * Set the width of the image.
+     */
     private double _imageWidth = 600;
+
+    /**
+     * Set the height of the image.
+     */
     private double _imageHeight = 600;
 
+    /**
+     *the rectangle for drag zooming
+     */
     private Rectangle dragZoomRect;
+
+    /**
+     *state of dragging
+     */
     private boolean dragging;
+
+    /**
+     * state if the mouse moved
+     */
     private boolean movedMouse = false;
+
+    /**
+     *the start X coordinate for dragging or zooming
+     */
     private double startX;
+
+    /**
+     *the start Y coordinate for dragging or zooming
+     */
     private double startY;
+
+    /**
+     *the drag offset in the X direction
+     */
     private double dragOffsetX = 0;
+
+    /**
+     *the drag offset in the Y direction
+     */
     private double dragOffsetY = 0;
+
+    /**
+     *gets mouse action
+     */
     private int mouseAction;
 
     // Constants for mouse actions
+
+    /**
+     * Set the drag action from the mouse
+     */
     public static final int MOUSE_ACTION_DRAG = 1;
+
+    /**
+     * Set the zoom in from the mouse
+     */
     public static final int MOUSE_ACTION_ZOOM_IN = 2;
+
+    /**
+     * Set the zoom out from the mouse
+     */
     public static final int MOUSE_ACTION_ZOOM_OUT = 3;
 
     /**
