@@ -4,6 +4,10 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * The view data class for the display, containing data about the current state of the view.
+ *
+ * @author Chloe
+ * @version 1.0
+ * @since 24.06.2024
  */
 public class DisplayViewData {
 
@@ -18,12 +22,12 @@ public class DisplayViewData {
     private double _imageHeight = 600;
 
     /**
-     *the rectangle for drag zooming
+     * the rectangle for drag zooming
      */
     private Rectangle dragZoomRect;
 
     /**
-     *state of dragging
+     * state of dragging
      */
     private boolean dragging;
 
@@ -33,27 +37,27 @@ public class DisplayViewData {
     private boolean movedMouse = false;
 
     /**
-     *the start X coordinate for dragging or zooming
+     * the start X coordinate for dragging or zooming
      */
     private double startX;
 
     /**
-     *the start Y coordinate for dragging or zooming
+     * the start Y coordinate for dragging or zooming
      */
     private double startY;
 
     /**
-     *the drag offset in the X direction
+     * the drag offset in the X direction
      */
     private double dragOffsetX = 0;
 
     /**
-     *the drag offset in the Y direction
+     * the drag offset in the Y direction
      */
     private double dragOffsetY = 0;
 
     /**
-     *gets mouse action
+     * gets mouse action
      */
     private int mouseAction;
 
@@ -73,6 +77,12 @@ public class DisplayViewData {
      * Set the zoom out from the mouse
      */
     public static final int MOUSE_ACTION_ZOOM_OUT = 3;
+
+    /**
+     * The default constructor to initiate the Viewdata
+     */
+    public DisplayViewData() {
+    }
 
     /**
      * Gets the height of the image.

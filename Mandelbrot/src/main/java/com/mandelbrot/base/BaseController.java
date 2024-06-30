@@ -6,10 +6,22 @@ package com.mandelbrot.base;
  * @param <TView>     The type of the view, which extends BaseView.
  * @param <TModel>    The type of the model.
  * @param <TViewData> The type of the view data.
+ * @author Chloe
+ * @version 1.0
+ * @since 24.06.2024
  */
 public class BaseController<TView extends BaseView, TModel, TViewData> {
+    /**
+     * The view associated with this controller.
+     */
     private TView _view;
+    /**
+     * The model associated with this controller.
+     */
     private TModel _model;
+    /**
+     * The view data associated with this controller.
+     */
     private TViewData _viewData;
 
     /**

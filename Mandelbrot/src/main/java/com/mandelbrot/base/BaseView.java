@@ -8,14 +8,26 @@ import javafx.scene.Node;
  *
  * @param <TController> The type of the controller, which extends BaseController.
  * @param <TElement>    The type of the main node element, which extends Node.
+ * @author Chloe
+ * @version 1.0
+ * @since 24.06.2024
  */
 public abstract class BaseView<TController extends BaseController, TElement extends Node> {
+    /**
+     * The main node of the view.
+     */
     protected TElement _mainNode;
 
     /**
      * The controller associated with this view.
      */
     protected TController _controller;
+
+    /**
+     * The default constructor to initiate the View
+     */
+    public BaseView() {
+    }
 
     /**
      * Abstract method to define the controls in the view.

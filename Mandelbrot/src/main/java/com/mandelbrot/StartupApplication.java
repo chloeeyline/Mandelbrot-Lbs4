@@ -7,8 +7,18 @@ import javafx.scene.Scene;
 
 /**
  * The main entry point for the Mandelbrot application.
+ *
+ * @author Chloe
+ * @version 1.0
+ * @since 24.06.2024
  */
 public class StartupApplication extends Application {
+
+    /**
+     * The default constructor to initiate the application
+     */
+    public StartupApplication() {
+    }
 
     /**
      * The main method that launches the application.

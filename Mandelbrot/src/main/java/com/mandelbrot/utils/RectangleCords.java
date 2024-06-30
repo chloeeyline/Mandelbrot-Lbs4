@@ -2,26 +2,30 @@ package com.mandelbrot.utils;
 
 /**
  * Class representing the coordinates of a rectangle.
+ *
+ * @author Chloe
+ * @version 1.0
+ * @since 24.06.2024
  */
 public class RectangleCords {
 
     /**
-     *minimum of the x Cords
+     * minimum of the x Cords
      */
     private double xMin;
 
     /**
-     *maximum of the x Cords
+     * maximum of the x Cords
      */
     private double xMax;
 
     /**
-     *minimum of the y Cords
+     * minimum of the y Cords
      */
     private double yMin;
 
     /**
-     *maximum of the y Cords
+     * maximum of the y Cords
      */
     private double yMax;
 

@@ -11,38 +11,49 @@ import javafx.scene.layout.Pane;
 
 /**
  * The view class for displaying the Mandelbrot set.
+ *
+ * @author Chloe
+ * @version 1.0
+ * @since 24.06.2024
  */
 public class DisplayView extends BaseView<DisplayController, VBox> {
 
     /**
-     *Pane for Display
+     * Pane for Display
      */
     private Pane _displayPane;
 
     /**
-     *Canvas for the Display controls
+     * Canvas for the Display controls
      */
     private Canvas _canvas;
 
     /**
-     *the image of the mandelbrot set
+     * the image of the mandelbrot set
      */
     private WritableImage _image;
 
     /**
-     *Toggle group for iterations
+     * Toggle group for iterations
      */
     private ToggleGroup _iterationGroup;
 
     /**
-     *toggle group for colors
+     * toggle group for colors
      */
     private ToggleGroup _colorPaletteGroup;
 
     /**
-     *Color picker for background colors
+     * Color picker for background colors
      */
     private ColorPicker _backgroundColorPicker;
+
+    /**
+     * The default constructor to initiate the View
+     */
+    public DisplayView() {
+        super();
+    }
 
     /**
      * Gets the canvas where the Mandelbrot set is drawn.
@@ -116,9 +127,9 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         _mainNode.getChildren().add(_displayPane);
 
         // Set up mouse event handlers
-        _canvas.setOnMousePressed(evt -> _controller.mousePressed(evt));
-        _canvas.setOnMouseReleased(evt -> _controller.mouseReleased(evt));
-        _canvas.setOnMouseDragged(evt -> _controller.mouseDragged(evt));
+        _canvas.setOnMousePressed(evt -> getController().mousePressed(evt));
+        _canvas.setOnMouseReleased(evt -> getController().mouseReleased(evt));
+        _canvas.setOnMouseDragged(evt -> getController().mouseDragged(evt));
     }
 
     /**
@@ -228,12 +239,7 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         MenuItem reset = new MenuItem("Reset");
 
         setLimits.setOnAction(evt -> {
-            RectangleCords initialCords = new RectangleCords(
-                    getController().getModel().getXMin(),
-                    getController().getModel().getXMax(),
-                    getController().getModel().getYMin(),
-                    getController().getModel().getYMax()
-            );
+            RectangleCords initialCords = new RectangleCords(getController().getModel().getXMin(), getController().getModel().getXMax(), getController().getModel().getYMin(), getController().getModel().getYMax());
             LimitsDialog dialog = new LimitsDialog(initialCords);
             RectangleCords newCords = dialog.getRectangleCords();
             if (newCords != null) {
@@ -296,8 +302,7 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
         rmi.setSelected(selected);
         rmi.setUserData(value);
         rmi.setOnAction(evt -> {
-            if (rmi.isSelected())
-                getController().getModel().setColorPalette((int) rmi.getUserData());
+            if (rmi.isSelected()) getController().getModel().setColorPalette((int) rmi.getUserData());
             getController().drawMandelbrotSet();
         });
     }

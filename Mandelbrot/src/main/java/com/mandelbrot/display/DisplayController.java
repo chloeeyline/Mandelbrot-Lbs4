@@ -22,6 +22,10 @@ import javafx.stage.FileChooser;
 
 /**
  * DisplayController is responsible for handling user interactions and updating the view and model accordingly.
+ *
+ * @author Chloe
+ * @version 1.0
+ * @since 24.06.2024
  */
 public class DisplayController extends BaseController<DisplayView, DisplayModel, DisplayViewData> {
 

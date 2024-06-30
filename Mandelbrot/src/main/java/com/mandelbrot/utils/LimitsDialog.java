@@ -12,11 +12,15 @@ import javafx.stage.Stage;
 
 /**
  * Dialog for setting the limits of the Mandelbrot set view.
+ *
+ * @author Chloe
+ * @version 1.0
+ * @since 24.06.2024
  */
 public class LimitsDialog {
 
     /**
-     *rectangle cords in the dialog
+     * rectangle cords in the dialog
      */
     private RectangleCords rectangleCords;
 

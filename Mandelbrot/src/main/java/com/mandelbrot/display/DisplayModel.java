@@ -8,6 +8,10 @@ import java.util.Locale;
 
 /**
  * The model class for the Mandelbrot set display.
+ *
+ * @author Chloe
+ * @version 1.0
+ * @since 24.06.2024
  */
 public class DisplayModel {
     // Instance variables for the limits and settings of the Mandelbrot set
