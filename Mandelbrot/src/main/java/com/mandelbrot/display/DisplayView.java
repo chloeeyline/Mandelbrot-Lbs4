@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 /**
  * The view class for displaying the Mandelbrot set.
@@ -265,6 +266,7 @@ public class DisplayView extends BaseView<DisplayController, VBox> {
     private Menu CreateColorMenu() {
         Menu menu = new Menu("Farbe");
         _backgroundColorPicker = new ColorPicker();
+        _backgroundColorPicker.setValue(Color.BLACK);
         CustomMenuItem backgroundColor = new CustomMenuItem(_backgroundColorPicker);
         backgroundColor.setHideOnClick(false);
         _backgroundColorPicker.setOnAction(evt -> {
